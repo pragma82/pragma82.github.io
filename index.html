@@ -14,56 +14,30 @@
             color: #333;
         }
 
-        /* --- ÜST KAPSAYICI (Banner ve Navbarı birleştirir) --- */
+        /* --- ÜST KAPSAYICI --- */
         .header-wrapper {
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             z-index: 1000;
+            background-color: #ffffff; /* Banner arka planı temiz kalsın */
         }
 
-        /* --- BANNER TASARIMI --- */
-        .top-banner {
-            background: linear-gradient(135deg, #1c2833 0%, #2980b9 100%);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            padding-left: 140px; 
+        /* --- YENİ KENDİ TASARIMINIZ OLAN BANNER --- */
+        .banner-image {
+            width: 100%;
+            height: auto;
+            max-height: 350px; /* Görselin çok devasa olmasını engeller */
+            object-fit: cover;
+            display: block;
         }
 
-        /* --- KALPLİ VE STETOSKOPLU YENİ LOGO --- */
-        .asm-logo {
-            position: absolute;
-            left: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 120px;
-            height: 120px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            border: 4px solid #bdc3c7; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            transition: transform 0.3s ease;
-        }
-
-        .asm-logo:hover {
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        /* --- METALİK NAVBAR TASARIMI --- */
+        /* --- METALİK NAVBAR TASARIMI (Artık ortalandı) --- */
         .metallic-navbar {
             background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
             border-bottom: 2px solid #7f8c8d;
             display: flex;
-            justify-content: flex-start;
-            padding: 0 20px 0 180px; 
+            justify-content: center; /* Menü simetrik olarak ortada durur */
+            padding: 0 20px; 
         }
 
         .nav-links {
@@ -88,7 +62,12 @@
             text-shadow: 1px 1px 2px black;
             transition: all 0.3s ease;
             border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
         }
+
+        /* Menünün ilk ve son çizgilerini düzeltme */
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
 
         .nav-links > li > a:hover {
             background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
@@ -159,7 +138,7 @@
             background: #fff9e6;
             padding: 25px;
             border-radius: 10px;
-            border-left: 5px solid #f1c40f;
+            border-left: 5px solid #d32f2f; /* Logonuzdaki canlı kırmızı */
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
@@ -169,97 +148,31 @@
             font-size: 16px;
             font-weight: bold;
             color: white;
-            background-color: #3498db;
+            background-color: #d32f2f; /* Logonuzdaki canlı kırmızı */
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            box-shadow: 0 6px 0 #2980b9, 0 10px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 0 #b71c1c, 0 10px 15px rgba(0,0,0,0.2);
             transition: all 0.15s ease;
         }
-        .btn-3d:hover { background-color: #3cb0fd; transform: translateY(-2px); box-shadow: 0 8px 0 #2980b9, 0 15px 20px rgba(0,0,0,0.3); }
-        .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #2980b9, 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-3d:hover { background-color: #f44336; transform: translateY(-2px); box-shadow: 0 8px 0 #b71c1c, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #b71c1c, 0 2px 5px rgba(0,0,0,0.2); }
 
-        /* Mobil Uyum */
+        /* Mobil Uyum (Küçük Ekranlar İçin) */
         @media (max-width: 768px) {
             .main-container { grid-template-columns: 1fr; }
-            .asm-logo { left: 50%; transform: translate(-50%, -50%); top: 0; width: 80px; height: 80px; }
-            .top-banner { padding-left: 20px; padding-top: 50px; font-size: 24px; }
-            .metallic-navbar { padding: 0; justify-content: center; }
+            .metallic-navbar { padding: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Kapsayıcı -->
+    <!-- Kapsayıcı (Banner + Navbar) -->
     <div class="header-wrapper">
         
-        <!-- YENİ LOGO: Hilal + Aile + Stetoskop + Kalp + EKG -->
-        <div class="asm-logo">
-            <svg viewBox="0 0 100 100" width="85" height="85">
-                <defs>
-                    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#e74c3c" />
-                        <stop offset="100%" stop-color="#c0392b" />
-                    </linearGradient>
-                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#3498db" />
-                        <stop offset="100%" stop-color="#2980b9" />
-                    </linearGradient>
-                    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#2ecc71" />
-                        <stop offset="100%" stop-color="#27ae60" />
-                    </linearGradient>
-                    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#f1c40f" />
-                        <stop offset="100%" stop-color="#e67e22" />
-                    </linearGradient>
-                    
-                    <mask id="crescentMask">
-                        <rect width="100" height="100" fill="white" />
-                        <circle cx="60" cy="40" r="45" fill="black" />
-                    </mask>
-                </defs>
-
-                <!-- Kırmızı Hilal -->
-                <circle cx="50" cy="50" r="45" fill="url(#redGrad)" mask="url(#crescentMask)" />
-                
-                <!-- AİLE FİGÜRLERİ -->
-                <!-- Sol Yetişkin (Yeşil) -->
-                <circle cx="35" cy="40" r="7" fill="url(#greenGrad)" />
-                <path d="M 20 85 C 20 55, 55 55, 55 85 Z" fill="url(#greenGrad)" />
-
-                <!-- Sağ Yetişkin (Lacivert) -->
-                <circle cx="60" cy="45" r="6" fill="url(#blueGrad)" />
-                <path d="M 45 85 C 45 60, 75 60, 75 85 Z" fill="url(#blueGrad)" />
-
-                <!-- Merkez Çocuk (Turuncu) -->
-                <circle cx="48" cy="55" r="5" fill="url(#orangeGrad)" />
-                <path d="M 38 85 C 38 65, 58 65, 58 85 Z" fill="url(#orangeGrad)" />
-
-                <!-- STETOSKOP -->
-                <!-- Kulaklık Kısmı (Y Borusu) -->
-                <path d="M 65 20 L 75 32 L 85 20" fill="none" stroke="#2c3e50" stroke-width="2" />
-                <circle cx="65" cy="20" r="2" fill="#2c3e50" />
-                <circle cx="85" cy="20" r="2" fill="#2c3e50" />
-                <!-- Ana Hortum (Aileyi dıştan sarar) -->
-                <path d="M 75 32 C 75 40, 95 65, 80 85 C 65 98, 30 95, 20 80" fill="none" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
-                <!-- Dinleme Ucu (Diyafram) -->
-                <circle cx="20" cy="80" r="5" fill="#ecf0f1" stroke="#2c3e50" stroke-width="2" />
-                <circle cx="20" cy="80" r="2" fill="#7f8c8d" />
-
-                <!-- KALP VE EKG -->
-                <!-- Kırmızı Kalp (Ailenin önünde, EKG'nin arkasında parlar) -->
-                <path d="M 45 76 C 45 76, 36 68, 36 62 C 36 57, 41 55, 45 59 C 49 55, 54 57, 54 62 C 54 68, 45 76, 45 76 Z" fill="#e74c3c" stroke="white" stroke-width="1.5" />
-                <!-- Beyaz EKG Çizgisi (Kalp atışı) -->
-                <polyline points="15,78 30,78 35,84 45,64 53,82 58,78 85,78" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </div>
-
-        <!-- Üst Banner -->
-        <div class="top-banner">
-            EFELER 5 NOLU AİLE SAĞLIĞI MERKEZİ
-        </div>
+        <!-- Yüklediğiniz Özel Banner Dosyası -->
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
 
         <!-- Metalik Navbar -->
         <nav class="metallic-navbar">
@@ -316,7 +229,7 @@
         </div>
 
         <div class="sidebar">
-            <h3 style="margin-top: 0; color: #d35400;">📌 Güncel Duyurular</h3>
+            <h3 style="margin-top: 0; color: #d32f2f;">📌 Güncel Duyurular</h3>
             
             <div style="margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
                 <strong>Genel:</strong>
