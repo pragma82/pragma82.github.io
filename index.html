@@ -34,7 +34,7 @@
             padding-left: 140px; 
         }
 
-        /* --- OVERLAP (KESİŞEN) LOGO TASARIMI --- */
+        /* --- YENİ METALİK AİLE HEKİMLİĞİ LOGOSU --- */
         .asm-logo {
             position: absolute;
             left: 40px;
@@ -42,10 +42,12 @@
             transform: translateY(-50%);
             width: 120px;
             height: 120px;
-            background-color: #ffffff;
+            /* Logonun iç yuvarlağına hafif gümüş/inci efekti */
+            background: radial-gradient(circle, #ffffff 0%, #e8ecef 100%);
             border-radius: 50%;
-            border: 5px solid #ecf0f1;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            /* Çerçeveyi de metalik griye çevirdik */
+            border: 4px solid #95a5a6; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -194,21 +196,40 @@
     <!-- Kapsayıcı (Banner + Navbar + Logo) -->
     <div class="header-wrapper">
         
-        <!-- Kesişen Logo: Kırmızı Hilal ve EKG Çizgisi -->
+        <!-- Metalik Aile Hekimliği Logosu -->
         <div class="asm-logo">
             <svg viewBox="0 0 100 100" width="85" height="85">
                 <defs>
-                    <mask id="crescentMask">
-                        <rect width="100" height="100" fill="white"></rect>
-                        <!-- Siyah daire, kırmızı daireyi keserek sağa bakan hilal oluşturur -->
-                        <circle cx="32" cy="50" r="34" fill="black"></circle>
-                    </mask>
+                    <!-- Açık Gümüş / Krom Geçişi (Ön Plandaki Çocuk ve Alt Hilal İçin) -->
+                    <linearGradient id="chromeLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ffffff" />
+                        <stop offset="40%" stop-color="#bdc3c7" />
+                        <stop offset="60%" stop-color="#ecf0f1" />
+                        <stop offset="100%" stop-color="#7f8c8d" />
+                    </linearGradient>
+                    
+                    <!-- Koyu Çelik / Fırçalanmış Metal Geçişi (Arkadaki Ebeveynler İçin) -->
+                    <linearGradient id="chromeDark" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#2c3e50" />
+                        <stop offset="50%" stop-color="#7f8c8d" />
+                        <stop offset="100%" stop-color="#34495e" />
+                    </linearGradient>
                 </defs>
-                <!-- Kırmızı Hilal -->
-                <circle cx="48" cy="50" r="42" fill="#e30a17" mask="url(#crescentMask)"></circle>
+
+                <!-- Koruyucu Alt Hilal (Şefkat ve Sağlık Vurgusu) -->
+                <path d="M 12 55 C 12 85, 88 85, 88 55 C 78 72, 22 72, 12 55 Z" fill="url(#chromeLight)"/>
                 
-                <!-- Lacivert EKG Çizgisi -->
-                <polyline points="10,55 25,55 35,25 48,85 60,55 90,55" fill="none" stroke="#2980b9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                <!-- Sol Yetişkin Silüeti -->
+                <circle cx="32" cy="40" r="7" fill="url(#chromeDark)" />
+                <path d="M 20 75 C 20 54, 44 54, 44 75 Z" fill="url(#chromeDark)" />
+
+                <!-- Sağ Yetişkin Silüeti -->
+                <circle cx="68" cy="40" r="7" fill="url(#chromeDark)" />
+                <path d="M 56 75 C 56 54, 80 54, 80 75 Z" fill="url(#chromeDark)" />
+
+                <!-- Çocuk Silüeti (Merkez, önde, daha parlak metalik) -->
+                <circle cx="50" cy="50" r="6" fill="url(#chromeLight)" />
+                <path d="M 38 75 C 38 62, 62 62, 62 75 Z" fill="url(#chromeLight)" />
             </svg>
         </div>
 
