@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASM Duyuru ve Bilgi Platformu</title>
+    <title>Efeler 5 Nolu ASM</title>
     <style>
         /* Genel Ayarlar */
         body {
@@ -14,18 +14,56 @@
             color: #333;
         }
 
-        /* --- METALİK NAVBAR TASARIMI --- */
-        .metallic-navbar {
-            /* Koyu metalik / fırçalanmış çelik görünümü */
-            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
-            border-bottom: 2px solid #7f8c8d;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        /* --- ÜST KAPSAYICI (Banner ve Navbarı birleştirir) --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        /* --- BANNER TASARIMI --- */
+        .top-banner {
+            background: linear-gradient(135deg, #1c2833 0%, #2980b9 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            padding-left: 140px; 
+        }
+
+        /* --- OVERLAP (KESİŞEN) LOGO TASARIMI --- */
+        .asm-logo {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 120px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            border: 5px solid #ecf0f1;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
             display: flex;
             justify-content: center;
-            padding: 0 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            align-items: center;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .asm-logo:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* --- METALİK NAVBAR TASARIMI --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: flex-start;
+            padding: 0 20px 0 180px; 
         }
 
         .nav-links {
@@ -33,7 +71,7 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-wrap: wrap; /* Mobilde alt alta geçmesini sağlar */
+            flex-wrap: wrap;
         }
 
         .nav-links > li {
@@ -42,7 +80,7 @@
 
         .nav-links > li > a {
             display: block;
-            padding: 18px 20px;
+            padding: 16px 22px;
             color: #e0e0e0;
             text-decoration: none;
             font-size: 16px;
@@ -52,16 +90,15 @@
             border-right: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Navbar üzerine gelince (Hover) metalik parlama */
         .nav-links > li > a:hover {
             background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
             color: #ffffff;
             box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
         }
 
-        /* --- AÇILIR ALT MENÜLER (DROPDOWN) --- */
+        /* --- AÇILIR ALT MENÜLER --- */
         .dropdown-content {
-            display: none; /* Başlangıçta gizli */
+            display: none;
             position: absolute;
             background-color: #f9f9f9;
             min-width: 220px;
@@ -81,8 +118,9 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #ddd;
             transition: background-color 0.2s;
+            font-size: 15px;
         }
 
         .dropdown-content li a:hover {
@@ -90,10 +128,9 @@
             color: #000;
         }
 
-        /* Üst menüye gelince alt menüyü göster */
         .nav-links li:hover .dropdown-content {
             display: block;
-            animation: fadeInDown 0.3s ease forwards; /* Yumuşak açılma animasyonu */
+            animation: fadeInDown 0.3s ease forwards;
         }
 
         @keyframes fadeInDown {
@@ -101,32 +138,31 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- İÇERİK ALANI İSKELETİ --- */
+        /* --- İÇERİK ALANI --- */
         .main-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 40px auto;
             padding: 20px;
             display: grid;
-            grid-template-columns: 2fr 1fr; /* Sol taraf içerik, sağ taraf özet duyurular */
+            grid-template-columns: 2fr 1fr;
             gap: 30px;
         }
 
         .content-section {
             background: white;
-            padding: 30px;
+            padding: 35px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .sidebar {
-            background: #fff9e6; /* Duyurular için dikkat çekici hafif sarı arka plan */
-            padding: 20px;
+            background: #fff9e6;
+            padding: 25px;
             border-radius: 10px;
             border-left: 5px solid #f1c40f;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* Önceki 3D Butonumuz */
         .btn-3d {
             display: inline-block;
             padding: 12px 24px;
@@ -144,58 +180,90 @@
         .btn-3d:hover { background-color: #3cb0fd; transform: translateY(-2px); box-shadow: 0 8px 0 #2980b9, 0 15px 20px rgba(0,0,0,0.3); }
         .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #2980b9, 0 2px 5px rgba(0,0,0,0.2); }
 
+        /* Mobil Uyum */
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .asm-logo { left: 50%; transform: translate(-50%, -50%); top: 0; width: 80px; height: 80px; }
+            .top-banner { padding-left: 20px; padding-top: 50px; font-size: 24px; }
+            .metallic-navbar { padding: 0; justify-content: center; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Navigasyon Menüsü -->
-    <nav class="metallic-navbar">
-        <ul class="nav-links">
-            <li><a href="#">Ana Sayfa</a></li>
-            
-            <li class="dropdown">
-                <a href="#">Doktorlarımız ▾</a>
-                <ul class="dropdown-content">
-                    <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
-                    <li><a href="#">Diğer Hekim (Eklenecek)</a></li>
-                </ul>
-            </li>
+    <!-- Kapsayıcı (Banner + Navbar + Logo) -->
+    <div class="header-wrapper">
+        
+        <!-- Kesişen Logo: Kırmızı Hilal ve EKG Çizgisi -->
+        <div class="asm-logo">
+            <svg viewBox="0 0 100 100" width="85" height="85">
+                <defs>
+                    <mask id="crescentMask">
+                        <rect width="100" height="100" fill="white"></rect>
+                        <!-- Siyah daire, kırmızı daireyi keserek sağa bakan hilal oluşturur -->
+                        <circle cx="32" cy="50" r="34" fill="black"></circle>
+                    </mask>
+                </defs>
+                <!-- Kırmızı Hilal -->
+                <circle cx="48" cy="50" r="42" fill="#e30a17" mask="url(#crescentMask)"></circle>
+                
+                <!-- Lacivert EKG Çizgisi -->
+                <polyline points="10,55 25,55 35,25 48,85 60,55 90,55" fill="none" stroke="#2980b9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>
+        </div>
 
-            <li class="dropdown">
-                <a href="#">Ebe/Hemşirelerimiz ▾</a>
-                <ul class="dropdown-content">
-                    <li><a href="#">1. Birim Ebesi</a></li>
-                    <li><a href="#">2. Birim Ebesi</a></li>
-                </ul>
-            </li>
+        <!-- Üst Banner -->
+        <div class="top-banner">
+            EFELER 5 NOLU AİLE SAĞLIĞI MERKEZİ
+        </div>
 
-            <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+        <!-- Metalik Navbar -->
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="#">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Diğer Hekim (Eklenecek)</a></li>
+                    </ul>
+                </li>
 
-            <li class="dropdown">
-                <a href="#">Sağlık Rehberi ▾</a>
-                <ul class="dropdown-content">
-                    <li><a href="#">Aşı Takvimi ve Bilgiler</a></li>
-                    <li><a href="#">Kronik Hastalık Uyarıları</a></li>
-                    <li><a href="#">Sağlıklı Yaşam Görselleri</a></li>
-                </ul>
-            </li>
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
 
-            <li class="dropdown">
-                <a href="#">Duyurular ▾</a>
-                <ul class="dropdown-content">
-                    <li><a href="#">Genel ASM Duyuruları</a></li>
-                    <li><a href="#">Hekim Çalışma Programları</a></li>
-                </ul>
-            </li>
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
 
-            <li><a href="#">İletişim</a></li>
-        </ul>
-    </nav>
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="#">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="#">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- Ana İçerik Alanı -->
     <div class="main-container">
         
-        <!-- Sol Taraf: Karşılama ve Hızlı İşlemler -->
         <div class="content-section">
             <h2>Aile Sağlığı Merkezimize Hoş Geldiniz</h2>
             <p>Bu platform üzerinden güncel çalışma saatlerimizi takip edebilir, sağlık rehberimizden faydalı bilgilere ulaşabilir ve poliklinik duyurularını öğrenebilirsiniz.</p>
@@ -203,7 +271,6 @@
             <a href="https://mhrs.gov.tr" target="_blank" class="btn-3d">MHRS Üzerinden Randevu Al</a>
         </div>
 
-        <!-- Sağ Taraf: Özet Duyurular (Sidebar) -->
         <div class="sidebar">
             <h3 style="margin-top: 0; color: #d35400;">📌 Güncel Duyurular</h3>
             
@@ -214,7 +281,7 @@
 
             <div>
                 <strong>Hekim Programı:</strong>
-                <p style="margin: 5px 0; font-size: 14px;">Uzm. Dr. Abdurrahman Ersü ve Uzm.Dr. Nazmiye Kaçmaz Ersü, 21 Ağustos Cuma günü izinli olacaktır.</p>
+                <p style="margin: 5px 0; font-size: 14px;">Uzm. Dr. Abdurrahman Ersü, 15-18 Ağustos tarihleri arasında izinli olacaktır.</p>
             </div>
         </div>
 
