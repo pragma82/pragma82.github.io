@@ -3,80 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASM Duyuru ve Bilgilendirme Panosu</title>
+    <title>ASM Duyuru ve Bilgi Platformu</title>
     <style>
-        /* Sitenin Genel Ayarları */
+        /* Genel Ayarlar */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
-            color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- METALİK NAVBAR TASARIMI --- */
+        .metallic-navbar {
+            /* Koyu metalik / fırçalanmış çelik görünümü */
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 12px;
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap; /* Mobilde alt alta geçmesini sağlar */
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 18px 20px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Navbar üzerine gelince (Hover) metalik parlama */
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER (DROPDOWN) --- */
+        .dropdown-content {
+            display: none; /* Başlangıçta gizli */
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        /* Üst menüye gelince alt menüyü göster */
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards; /* Yumuşak açılma animasyonu */
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- İÇERİK ALANI İSKELETİ --- */
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Sol taraf içerik, sağ taraf özet duyurular */
+            gap: 30px;
+        }
+
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
         }
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+        .sidebar {
+            background: #fff9e6; /* Duyurular için dikkat çekici hafif sarı arka plan */
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #f1c40f;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        /* İstediğiniz 3D Animasyonlu Buton Tasarımı */
+        /* Önceki 3D Butonumuz */
         .btn-3d {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 12px 24px;
+            font-size: 16px;
             font-weight: bold;
             color: white;
-            background-color: #3498db; /* Mavi renk */
+            background-color: #3498db;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            /* 3D Gölge Efekti */
             box-shadow: 0 6px 0 #2980b9, 0 10px 15px rgba(0,0,0,0.2);
-            transition: all 0.15s ease; /* Yumuşak geçiş animasyonu */
+            transition: all 0.15s ease;
         }
+        .btn-3d:hover { background-color: #3cb0fd; transform: translateY(-2px); box-shadow: 0 8px 0 #2980b9, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #2980b9, 0 2px 5px rgba(0,0,0,0.2); }
 
-        /* Mouse butonun üzerine gelince (Hover) */
-        .btn-3d:hover {
-            background-color: #3cb0fd; /* Rengi biraz açılır */
-            transform: translateY(-2px); /* Çok hafif yukarı kalkar */
-            box-shadow: 0 8px 0 #2980b9, 0 15px 20px rgba(0,0,0,0.3); /* Gölge uzar */
-        }
-
-        /* Butona tıklandığı an (Active) */
-        .btn-3d:active {
-            transform: translateY(6px); /* Buton aşağı çöker */
-            box-shadow: 0 0 0 #2980b9, 0 2px 5px rgba(0,0,0,0.2); /* 3D gölge kaybolur, basılma hissi verir */
-        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Aile Sağlığı Merkezi</h1>
-        <p>Poliklinik çalışma saatlerimiz, aşı takvimleri ve güncel duyurularımıza buradan ulaşabilirsiniz. Yeni MHRS randevusu almak için aşağıdaki butonu kullanabilirsiniz.</p>
+    <!-- Navigasyon Menüsü -->
+    <nav class="metallic-navbar">
+        <ul class="nav-links">
+            <li><a href="#">Ana Sayfa</a></li>
+            
+            <li class="dropdown">
+                <a href="#">Doktorlarımız ▾</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                    <li><a href="#">Diğer Hekim (Eklenecek)</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">1. Birim Ebesi</a></li>
+                    <li><a href="#">2. Birim Ebesi</a></li>
+                </ul>
+            </li>
+
+            <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+            <li class="dropdown">
+                <a href="#">Sağlık Rehberi ▾</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Aşı Takvimi ve Bilgiler</a></li>
+                    <li><a href="#">Kronik Hastalık Uyarıları</a></li>
+                    <li><a href="#">Sağlıklı Yaşam Görselleri</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#">Duyurular ▾</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Genel ASM Duyuruları</a></li>
+                    <li><a href="#">Hekim Çalışma Programları</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#">İletişim</a></li>
+        </ul>
+    </nav>
+
+    <!-- Ana İçerik Alanı -->
+    <div class="main-container">
         
-        <!-- 3D Butonumuz -->
-        <a href="https://mhrs.gov.tr" target="_blank" class="btn-3d">MHRS Randevu Al</a>
+        <!-- Sol Taraf: Karşılama ve Hızlı İşlemler -->
+        <div class="content-section">
+            <h2>Aile Sağlığı Merkezimize Hoş Geldiniz</h2>
+            <p>Bu platform üzerinden güncel çalışma saatlerimizi takip edebilir, sağlık rehberimizden faydalı bilgilere ulaşabilir ve poliklinik duyurularını öğrenebilirsiniz.</p>
+            <br>
+            <a href="https://mhrs.gov.tr" target="_blank" class="btn-3d">MHRS Üzerinden Randevu Al</a>
+        </div>
+
+        <!-- Sağ Taraf: Özet Duyurular (Sidebar) -->
+        <div class="sidebar">
+            <h3 style="margin-top: 0; color: #d35400;">📌 Güncel Duyurular</h3>
+            
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                <strong>Genel:</strong>
+                <p style="margin: 5px 0; font-size: 14px;">Grip aşısı stoklarımız güncellenmiştir. Risk grubundaki hastalarımız müracaat edebilir.</p>
+            </div>
+
+            <div>
+                <strong>Hekim Programı:</strong>
+                <p style="margin: 5px 0; font-size: 14px;">Uzm. Dr. Abdurrahman Ersü ve Uzm.Dr. Nazmiye Kaçmaz Ersü, 21 Ağustos Cuma günü izinli olacaktır.</p>
+            </div>
+        </div>
+
     </div>
 
 </body>
