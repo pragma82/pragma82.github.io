@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASM Duyuru ve Bilgilendirme Panosu</title>
+    <style>
+        /* Sitenin Genel Ayarları */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* İstediğiniz 3D Animasyonlu Buton Tasarımı */
+        .btn-3d {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #3498db; /* Mavi renk */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            /* 3D Gölge Efekti */
+            box-shadow: 0 6px 0 #2980b9, 0 10px 15px rgba(0,0,0,0.2);
+            transition: all 0.15s ease; /* Yumuşak geçiş animasyonu */
+        }
+
+        /* Mouse butonun üzerine gelince (Hover) */
+        .btn-3d:hover {
+            background-color: #3cb0fd; /* Rengi biraz açılır */
+            transform: translateY(-2px); /* Çok hafif yukarı kalkar */
+            box-shadow: 0 8px 0 #2980b9, 0 15px 20px rgba(0,0,0,0.3); /* Gölge uzar */
+        }
+
+        /* Butona tıklandığı an (Active) */
+        .btn-3d:active {
+            transform: translateY(6px); /* Buton aşağı çöker */
+            box-shadow: 0 0 0 #2980b9, 0 2px 5px rgba(0,0,0,0.2); /* 3D gölge kaybolur, basılma hissi verir */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Aile Sağlığı Merkezi</h1>
+        <p>Poliklinik çalışma saatlerimiz, aşı takvimleri ve güncel duyurularımıza buradan ulaşabilirsiniz. Yeni MHRS randevusu almak için aşağıdaki butonu kullanabilirsiniz.</p>
+        
+        <!-- 3D Butonumuz -->
+        <a href="https://mhrs.gov.tr" target="_blank" class="btn-3d">MHRS Randevu Al</a>
+    </div>
+
+</body>
+</html>
