@@ -22,13 +22,14 @@
             background-color: #ffffff; /* Banner arka planı temiz kalsın */
         }
 
-        /* --- YENİ KENDİ TASARIMINIZ OLAN BANNER --- */
+       /* --- YENİ KENDİ TASARIMINIZ OLAN BANNER --- */
         .banner-image {
             width: 100%;
-            height: 150px; /* Dikey yüksekliği sabitledik (Daha da ince isterseniz 150px yapabilirsiniz) */
-            object-fit: cover; /* Resmi sündürmez, en-boy oranını koruyarak bu alana sığdırır */
-            object-position: center; /* Kırpma işlemi olursa resmin tam ortasını (logoları) odakta tutar */
+            height: 150px; /* İstediğiniz gibi çok daha ince ve zarif bir şerit */
+            object-fit: contain; /* Yakınlaştırma yapmaz, resmin tamamını kesmeden bu alana sığdırır */
+            object-position: center; 
             display: block;
+            background-color: #ffffff; /* Resmin en-boy oranı sebebiyle yanlarda boşluk kalırsa beyazla pürüzsüzce doldurur */
         }
 
         /* --- METALİK NAVBAR TASARIMI (Artık ortalandı) --- */
