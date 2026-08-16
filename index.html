@@ -22,13 +22,15 @@
             background-color: #ffffff; /* Banner arka planı temiz kalsın */
         }
 
-     /* --- YENİ KENDİ TASARIMINIZ OLAN BANNER --- */
+    /* --- YENİ KENDİ TASARIMINIZ OLAN BANNER --- */
         .banner-image {
             width: 100%;
-            height: auto; /* Yüksekliği otomatik bıraktık, böylece ASLA kesilme/kırpma yapmaz */
+            height: 220px; /* Afişin dikey kalınlığını burada şık bir boyuta sabitledik */
+            object-fit: cover; /* Resmi ezmeden/sündürmeden bu alana yayar, fazlalığı alttan/üstten tıraşlar */
+            object-position: center; /* Tıraşlama yaparken afişin tam ortasını (yazı ve logoları) odakta tutar */
             display: block;
         }
-
+        
         /* --- METALİK NAVBAR TASARIMI (Artık ortalandı) --- */
         .metallic-navbar {
             background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
