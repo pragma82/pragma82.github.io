@@ -14,7 +14,7 @@
             color: #333;
         }
 
-        /* --- ÜST KAPSAYICI --- */
+        /* --- ÜST KAPSAYICI (Tüm sayfalarda aynı) --- */
         .header-wrapper {
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
@@ -22,10 +22,12 @@
             background-color: #ffffff;
         }
 
-        /* --- BANNER --- */
+        /* --- BANNER (Ana sayfadaki gibi 220px inceltilmiş hali) --- */
         .banner-image {
             width: 100%;
-            height: auto;
+            height: 220px; 
+            object-fit: cover;
+            object-position: center;
             display: block;
         }
 
@@ -97,7 +99,7 @@
             border-bottom: 1px solid #ddd;
             transition: background-color 0.2s;
             font-size: 15px;
-            white-space: nowrap; 
+            white-space: nowrap; /* İsimlerin tek satırda kalmasını sağlar */
         }
 
         .dropdown-content li a:hover {
@@ -166,6 +168,7 @@
 
     <!-- Kapsayıcı (Banner + Navbar) -->
     <div class="header-wrapper">
+        <!-- Banner Görseliniz -->
         <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
 
         <!-- Metalik Navbar -->
@@ -238,11 +241,11 @@
                 </div>
                 
                 <div style="background-color: #f9f9f9; padding: 15px; border-left: 4px solid #f1c40f; border-radius: 4px; margin-top: 30px;">
-                    <p style="margin: 0; font-size: 14px;"><strong>Not:</strong> Randevularınızı MHRS üzerinden alarak bekleme sürenizi kısaltabilirsiniz.</p>
+                    <p style="margin: 0; font-size: 14px; color: #d32f2f;"><strong>Randevu alarak bekleme sürenizi kısaltabilirsiniz.</strong></p>
                 </div>
             </div>
 
-            <!-- Sağ Taraf: Google Haritalar Konumu -->
+            <!-- Sağ Taraf: Kurum İsmiyle Düzeltilmiş Google Haritalar Konumu -->
             <div class="map-card">
                 <iframe 
                     width="100%" 
@@ -251,7 +254,7 @@
                     scrolling="no" 
                     marginheight="0" 
                     marginwidth="0" 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.6946181321389!2d27.822822165354104!3d37.842071676120774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b92ca38c337593%3A0x5bd81a5bb08785a4!2zQXlkxLFuIDUgbm9sdSBTYcSfbMSxayBPY2HEn8SxIEFpbGUgU2HEn2zEscSfxLEgTWVya2V6aQ!5e0!3m2!1str!2str!4v1787003008950!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" 
+                    src="https://maps.google.com/maps?q=Efeler%205%20Nolu%20Aile%20Sa%C4%9Fl%C4%B1%C4%9F%C4%B1%20Merkezi,%20Ayd%C4%B1n&t=&z=16&ie=UTF8&iwloc=&output=embed" 
                     allowfullscreen="" 
                     loading="lazy">
                 </iframe>
