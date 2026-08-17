@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Efeler 5 Nolu ASM</title>
+    <style>
+        /* Genel Ayarlar */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        /* --- BANNER --- */
+        .banner-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- İLETİŞİM ALANI TASARIMI --- */
+        .main-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d32f2f;
+        }
+
+        .map-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .contact-icon {
+            font-size: 24px;
+            color: #d32f2f;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .contact-info {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .metallic-navbar { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Kapsayıcı (Banner + Navbar) -->
+    <div class="header-wrapper">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <!-- Metalik Navbar -->
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="#">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="#">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İletişim İçerik Alanı -->
+    <div class="main-container">
+        
+        <div class="contact-grid">
+            
+            <!-- Sol Taraf: Adres ve Telefon Bilgileri -->
+            <div class="contact-card">
+                <h2 style="margin-top: 0; color: #2c3e50;">İletişim Bilgileri</h2>
+                <hr style="border: 0; height: 1px; background: #ddd; margin-bottom: 25px;">
+                
+                <div class="contact-info">
+                    <span class="contact-icon">📍</span>
+                    <strong>Adres:</strong><br>
+                    Işıklı Yolu, Yeşilyurt Sitesi No:10<br>
+                    Efeler / AYDIN
+                </div>
+
+                <div class="contact-info">
+                    <span class="contact-icon">📞</span>
+                    <strong>Telefon:</strong><br>
+                    <a href="tel:+902562191455" style="color: #3498db; text-decoration: none; font-weight: bold;">+90 256 219 14 55</a>
+                </div>
+                
+                <div style="background-color: #f9f9f9; padding: 15px; border-left: 4px solid #f1c40f; border-radius: 4px; margin-top: 30px;">
+                    <p style="margin: 0; font-size: 14px;"><strong>Not:</strong> Randevularınızı MHRS üzerinden alarak bekleme sürenizi kısaltabilirsiniz.</p>
+                </div>
+            </div>
+
+            <!-- Sağ Taraf: Google Haritalar Konumu -->
+            <div class="map-card">
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    style="min-height: 350px; border:0; border-radius: 8px;" 
+                    scrolling="no" 
+                    marginheight="0" 
+                    marginwidth="0" 
+                    src="https://maps.google.com/maps?q=Işıklı%20yolu%20Yeşilyurt%20sitesi%20No:10%20Efeler%2FAYDIN&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
