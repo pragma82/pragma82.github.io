@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aşı Takvimi ve Bilgiler - Efeler 5 Nolu ASM</title>
+    <style>
+        /* Genel Ayarlar */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        /* --- BANNER --- */
+        .banner-image {
+            width: 100%;
+            height: 220px; 
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- İÇERİK ALANI TASARIMI --- */
+        .main-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d32f2f;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        .info-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        /* Görsel Çerçeveleri */
+        .vaccine-img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+
+        /* Hesaplayıcı Kutusu */
+        .calculator-container {
+            background-color: #f8f9fa;
+            border: 2px dashed #1abc9c;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        /* 3D Buton */
+        .btn-3d {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #d32f2f; 
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 6px 0 #b71c1c, 0 10px 15px rgba(0,0,0,0.2);
+            transition: all 0.15s ease;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-3d:hover { background-color: #f44336; transform: translateY(-2px); box-shadow: 0 8px 0 #b71c1c, 0 15px 20px rgba(0,0,0,0.3); }
+        .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #b71c1c, 0 2px 5px rgba(0,0,0,0.2); }
+
+        @media (max-width: 768px) {
+            .metallic-navbar { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Kapsayıcı (Banner + Navbar) -->
+    <div class="header-wrapper">
+        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="asi-takvimi.html">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="#">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="#">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <div class="main-container">
+        
+        <!-- 1. BÖLÜM: Sizin Yazacağınız Bilgi Metni -->
+        <h2>Aşılar Hakkında Bilgilendirme</h2>
+        <div class="info-text">
+            <p><strong>Değerli Hastalarımız,</strong></p>
+            <p>Buraya aşıların önemi, yan etkileri, aşı sonrasında yapılması gerekenler veya genel uyarılarınızla ilgili kendi yazdığınız metni ekleyebilirsiniz. (Bu yazıyı dilediğiniz kadar uzatabilirsiniz.)</p>
+        </div>
+
+        <!-- 2. BÖLÜM: Bakanlık Aşı Takvimi Görseli -->
+        <h2>Sağlık Bakanlığı Rutin Aşı Takvimi</h2>
+        <p class="info-text">T.C. Sağlık Bakanlığı tarafından belirlenen ve bebeklik döneminden itibaren ücretsiz olarak uygulanan rutin aşı takvimimiz aşağıdadır:</p>
+        <img src="asitakvimi.png" alt="Rutin Aşı Takvimi" class="vaccine-img">
+
+        <!-- 3. BÖLÜM: Takvim Dışı Aşılar Görseli -->
+        <h2>Takvim Dışı (Özel) Aşılar</h2>
+        <p class="info-text">Rutin takvimde yer almayan ancak hekiminiz tarafından önerilebilecek (Menenjit, Rotavirüs, HPV vb.) özel aşıların takvimi aşağıdadır:</p>
+        <img src="takvimdisi.png" alt="Takvim Dışı Aşılar" class="vaccine-img">
+
+        <!-- 4. BÖLÜM: Hesaplayıcı Entegrasyon Alanı -->
+        <h2>Kişiye Özel Takvim Dışı Aşı Hesaplayıcı</h2>
+        <p class="info-text">Bebeğinizin doğum tarihini girerek, hangi özel aşıları hangi aylarda yaptırmanız gerektiğini aşağıdan hesaplayabilirsiniz.</p>
+        
+        <div class="calculator-container" id="ozel-asi-hesaplayici">
+            <!-- DAHA ÖNCE HAZIRLADIĞIMIZ HESAPLAYICI KODLARINI BURAYA YAPIŞTIRACAĞIZ -->
+            <h3 style="color: #1abc9c;">(Hesaplayıcı buraya eklenecek)</h3>
+        </div>
+
+        <!-- 5. BÖLÜM: Bakanlık Portalı Linki -->
+        <div style="text-align: center; margin-top: 50px; border-top: 1px solid #eee; padding-top: 30px;">
+            <p class="info-text">Tüm aşı kayıtlarınızı e-Nabız üzerinden veya Sağlık Bakanlığı'nın resmi Aşı Portalı üzerinden takip edebilirsiniz.</p>
+            <a href="https://asi.saglik.gov.tr/" target="_blank" class="btn-3d">T.C. Sağlık Bakanlığı Aşı Portalı'na Git</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
