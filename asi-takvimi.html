@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aşı Takvimi ve Bilgiler - Efeler 5 Nolu ASM</title>
     <style>
-        /* Genel Ayarlar */
+        /* --- SİTE GENEL AYARLARI --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
@@ -14,7 +14,7 @@
             color: #333;
         }
 
-        /* --- ÜST KAPSAYICI --- */
+        /* --- ÜST KAPSAYICI VE BANNER --- */
         .header-wrapper {
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
@@ -22,7 +22,6 @@
             background-color: #ffffff;
         }
 
-        /* --- BANNER --- */
         .banner-image {
             width: 100%;
             height: 220px; 
@@ -48,9 +47,7 @@
             flex-wrap: wrap;
         }
 
-        .nav-links > li {
-            position: relative;
-        }
+        .nav-links > li { position: relative; }
 
         .nav-links > li > a {
             display: block;
@@ -74,7 +71,6 @@
             box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
         }
 
-        /* --- AÇILIR ALT MENÜLER --- */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -117,7 +113,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- İÇERİK ALANI TASARIMI --- */
+        /* --- ANA İÇERİK ALANI --- */
         .main-container {
             max-width: 900px;
             margin: 40px auto;
@@ -135,9 +131,7 @@
             margin-top: 40px;
         }
 
-        h2:first-child {
-            margin-top: 0;
-        }
+        h2:first-child { margin-top: 0; }
 
         .info-text {
             font-size: 16px;
@@ -146,7 +140,6 @@
             margin-bottom: 30px;
         }
 
-        /* Görsel Çerçeveleri */
         .vaccine-img {
             width: 100%;
             max-width: 800px;
@@ -158,17 +151,6 @@
             border: 1px solid #ddd;
         }
 
-        /* Hesaplayıcı Kutusu */
-        .calculator-container {
-            background-color: #f8f9fa;
-            border: 2px dashed #1abc9c;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 30px 0;
-            text-align: center;
-        }
-
-        /* 3D Buton */
         .btn-3d {
             display: inline-block;
             padding: 12px 24px;
@@ -183,26 +165,98 @@
             box-shadow: 0 6px 0 #b71c1c, 0 10px 15px rgba(0,0,0,0.2);
             transition: all 0.15s ease;
             text-align: center;
-            margin-top: 20px;
         }
         .btn-3d:hover { background-color: #f44336; transform: translateY(-2px); box-shadow: 0 8px 0 #b71c1c, 0 15px 20px rgba(0,0,0,0.3); }
         .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #b71c1c, 0 2px 5px rgba(0,0,0,0.2); }
 
+        /* --- AŞI HESAPLAYICI ÖZEL STİLLERİ --- */
+        :root {
+            --calc-primary: #1d3557;
+            --calc-secondary: #457b9d;
+            --calc-accent: #d32f2f;
+            --calc-warning: #f4a261;
+            --calc-danger: #e63946;
+        }
+
+        .calculator-container {
+            background-color: #f8f9fa;
+            border: 2px solid #ecf0f1;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .calc-header { text-align: center; margin-bottom: 25px; }
+        .calc-header h3 { color: var(--calc-primary); margin: 0; font-size: 24px; }
+        .calc-header p { color: #666; font-size: 14px; margin-top: 5px; }
+
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: var(--calc-secondary); }
+        #vaccine-form input[type="number"], #vaccine-form input[type="text"], #vaccine-form input[type="date"], #vaccine-form select { 
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; transition: 0.3s; background-color: #fff; box-sizing: border-box;
+        }
+        #vaccine-form input:focus, #vaccine-form select:focus { outline: none; border-color: var(--calc-secondary); box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.2); }
+
+        .checkbox-group { display: flex; align-items: center; gap: 8px; background: #e8f1f2; padding: 12px; border-radius: 6px; margin-top: 10px; border: 1px solid #b7d5d4; }
+        .checkbox-group input { width: auto; transform: scale(1.2); }
+        .checkbox-group label { margin: 0; color: var(--calc-primary); cursor: pointer; font-weight: 500; }
+
+        .history-section { background-color: #ffffff; padding: 15px; border-radius: 8px; border-left: 4px solid var(--calc-accent); margin-top: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .history-section h4 { margin-top: 0; font-size: 15px; color: var(--calc-accent); margin-bottom: 15px; }
+        .dose-date-field { margin-left: 15px; border-left: 2px solid var(--calc-secondary); padding-left: 15px; margin-bottom: 10px; }
+
+        .btn-print { width: 100%; background-color: var(--calc-secondary); color: white; border: none; padding: 10px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.3s;}
+        .btn-print:hover { background-color: #2a5a73; }
+
+        #result-container { margin-top: 25px; padding: 20px; border-radius: 8px; background-color: #e8f5e9; border: 1px solid #c8e6c9; display: none; text-align: left; }
+        #result-container.warning { background-color: #ffebee; border-color: #ffcdd2; }
+        #result-container h4 { color: #2e7d32; margin-top: 0; margin-bottom: 5px; font-size: 18px; }
+        #patient-name-display { color: var(--calc-primary); margin-top: 0; margin-bottom: 5px; font-size: 16px; font-weight: bold; }
+        #patient-age-display { color: #555; margin-top: 0; margin-bottom: 15px; font-size: 14px; border-bottom: 2px solid #c8e6c9; padding-bottom: 10px; }
+        
+        #result-container.warning h4 { color: #c62828; }
+        #result-container.warning #patient-age-display { border-bottom-color: #ffcdd2; }
+        
+        #result-content { font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+        
+        .calendar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .calendar-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .calendar-card.warning-card { border-color: var(--calc-danger); }
+        .calendar-header { background: var(--calc-secondary); color: white; padding: 10px; font-weight: bold; font-size: 14px; }
+        .warning-card .calendar-header { background: var(--calc-danger); }
+        .calendar-body { padding: 15px; }
+        .calendar-date { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 5px; }
+        .calendar-note { font-size: 13px; color: #666; }
+
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
+        .badge.new { background-color: #e3f2fd; color: #1565c0; }
+        .badge.catchup { background-color: #fff3e0; color: #ef6c00; }
+
         @media (max-width: 768px) {
             .metallic-navbar { padding: 0; }
+        }
+
+        /* Yazdırma Ayarları */
+        @media print {
+            body { background-color: white; padding: 0; }
+            .header-wrapper, .info-text, h2, .vaccine-img, .btn-3d, form, .btn-print, .calc-header p { display: none !important; }
+            .main-container, .calculator-container { box-shadow: none; border: none; margin: 0; padding: 0; max-width: 100%; }
+            #result-container { border: none; background-color: white !important; display: block; padding: 0; margin-top: 0; }
+            .calendar-card { border: 1px solid #000; break-inside: avoid; }
+            .calendar-header { background: #eee !important; color: #000 !important; border-bottom: 1px solid #000; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Kapsayıcı (Banner + Navbar) -->
+    <!-- ÜST KISIM (Banner ve Menü) -->
     <div class="header-wrapper">
-        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
 
         <nav class="metallic-navbar">
             <ul class="nav-links">
                 <li><a href="index.html">Ana Sayfa</a></li>
-                
                 <li class="dropdown">
                     <a href="#">Doktorlarımız ▾</a>
                     <ul class="dropdown-content">
@@ -212,7 +266,6 @@
                         <li><a href="#">Dr. Ümit Yılmaz</a></li>
                     </ul>
                 </li>
-
                 <li class="dropdown">
                     <a href="#">Ebe/Hemşirelerimiz ▾</a>
                     <ul class="dropdown-content">
@@ -220,9 +273,7 @@
                         <li><a href="#">2. Birim Ebesi</a></li>
                     </ul>
                 </li>
-
                 <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
-
                 <li class="dropdown">
                     <a href="#">Sağlık Rehberi ▾</a>
                     <ul class="dropdown-content">
@@ -230,7 +281,6 @@
                         <li><a href="#">Kronik Hastalık Uyarıları</a></li>
                     </ul>
                 </li>
-
                 <li class="dropdown">
                     <a href="#">Duyurular ▾</a>
                     <ul class="dropdown-content">
@@ -238,7 +288,6 @@
                         <li><a href="#">Hekim Çalışma Programları</a></li>
                     </ul>
                 </li>
-
                 <li><a href="iletisim.html">İletişim</a></li>
             </ul>
         </nav>
@@ -247,33 +296,103 @@
     <!-- İÇERİK ALANI -->
     <div class="main-container">
         
-        <!-- 1. BÖLÜM: Sizin Yazacağınız Bilgi Metni -->
         <h2>Aşılar Hakkında Bilgilendirme</h2>
         <div class="info-text">
             <p><strong>Değerli Hastalarımız,</strong></p>
             <p>Buraya aşıların önemi, yan etkileri, aşı sonrasında yapılması gerekenler veya genel uyarılarınızla ilgili kendi yazdığınız metni ekleyebilirsiniz. (Bu yazıyı dilediğiniz kadar uzatabilirsiniz.)</p>
         </div>
 
-        <!-- 2. BÖLÜM: Bakanlık Aşı Takvimi Görseli -->
         <h2>Sağlık Bakanlığı Rutin Aşı Takvimi</h2>
         <p class="info-text">T.C. Sağlık Bakanlığı tarafından belirlenen ve bebeklik döneminden itibaren ücretsiz olarak uygulanan rutin aşı takvimimiz aşağıdadır:</p>
-        <img src="asitakvimi.jpeg" alt="Rutin Aşı Takvimi" class="vaccine-img">
+        <img src="bakanlik-takvimi.jpg" alt="Rutin Aşı Takvimi" class="vaccine-img">
 
-        <!-- 3. BÖLÜM: Takvim Dışı Aşılar Görseli -->
         <h2>Takvim Dışı (Özel) Aşılar</h2>
         <p class="info-text">Rutin takvimde yer almayan ancak hekiminiz tarafından önerilebilecek (Menenjit, Rotavirüs, HPV vb.) özel aşıların takvimi aşağıdadır:</p>
-        <img src="takvimdisi.png" alt="Takvim Dışı Aşılar" class="vaccine-img">
+        <img src="ozel-asilar.jpg" alt="Takvim Dışı Aşılar" class="vaccine-img">
 
-        <!-- 4. BÖLÜM: Hesaplayıcı Entegrasyon Alanı -->
         <h2>Kişiye Özel Takvim Dışı Aşı Hesaplayıcı</h2>
         <p class="info-text">Bebeğinizin doğum tarihini girerek, hangi özel aşıları hangi aylarda yaptırmanız gerektiğini aşağıdan hesaplayabilirsiniz.</p>
         
+        <!-- HESAPLAYICI ENTEGRASYON ALANI -->
         <div class="calculator-container" id="ozel-asi-hesaplayici">
-            <!-- DAHA ÖNCE HAZIRLADIĞIMIZ HESAPLAYICI KODLARINI BURAYA YAPIŞTIRACAĞIZ -->
-            <h3 style="color: #1abc9c;">(Hesaplayıcı buraya eklenecek)</h3>
+            
+            <div class="calc-header">
+                <h3>🛡️ Klinik Aşı Planlayıcı</h3>
+                <p>Doğum Tarihi Bazlı Gelişmiş Algoritma</p>
+            </div>
+
+            <form id="vaccine-form">
+                <div class="form-group">
+                    <label>Hastanın Adı Soyadı</label>
+                    <input type="text" id="patient-name" placeholder="Örn: Ayşe Yılmaz" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Hastanın Doğum Tarihi (DoB)</label>
+                    <input type="date" id="dob" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="immuno-status">
+                    <label for="immuno-status">Hastanın bağışıklık sistemi zayıf/baskılanmış (Immunocompromised)</label>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Hangi Etkene Karşı Aşılanacak?</label>
+                    <select id="pathogen" required>
+                        <option value="" disabled selected>Seçiniz...</option>
+                        <option value="hpv">HPV (Rahim Ağzı/Siğil)</option>
+                        <option value="meningokok">Meningokok (MenACWY / MenB)</option>
+                        <option value="rotavirus">Rotavirüs</option>
+                        <option value="vzv">Suçiçeği / Zona (VZV)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Uygulanmak İstenen Marka / Tip</label>
+                    <select id="vaccine-brand" required>
+                        <option value="" disabled selected>Önce etken seçiniz...</option>
+                    </select>
+                </div>
+
+                <div class="history-section">
+                    <h4>📋 Aşı Geçmişi Anamnezi</h4>
+                    <div class="form-group">
+                        <label>Durum</label>
+                        <select id="history-status">
+                            <option value="yeni">Hayır, Hiç Aşılanmadı (Yeni Başlangıç)</option>
+                            <option value="asilandi">Evet, Daha Önce Aşılandı</option>
+                        </select>
+                    </div>
+
+                    <div id="history-details" style="display: none;">
+                        <div class="form-group">
+                            <label>Önceki Uygulanan Marka (Biliyorsa)</label>
+                            <input type="text" id="history-brand" placeholder="Örn: Bexsero">
+                        </div>
+                        <div class="form-group">
+                            <label>Bugüne Kadar Kaç Doz Uygulandı?</label>
+                            <input type="number" id="history-doses" min="1" max="4" placeholder="Örn: 1">
+                        </div>
+                        <div id="dose-dates-container"></div>
+                    </div>
+                </div>
+
+                <!-- 3D Buton stili buraya entegre edildi -->
+                <button type="submit" class="btn-3d" style="width: 100%;">Takvim Oluştur</button>
+            </form>
+
+            <div id="result-container">
+                <h4 id="result-title">📅 Aşı Önerisi ve Takvimi</h4>
+                <div id="patient-name-display"></div>
+                <div id="patient-age-display"></div>
+                <div id="result-content"></div>
+                <div id="calendar-view" class="calendar-grid"></div>
+                <button class="btn-print" onclick="window.print()">🖨️ Bu Takvimi Yazdır</button>
+            </div>
+
         </div>
 
-        <!-- 5. BÖLÜM: Bakanlık Portalı Linki -->
         <div style="text-align: center; margin-top: 50px; border-top: 1px solid #eee; padding-top: 30px;">
             <p class="info-text">Tüm aşı kayıtlarınızı e-Nabız üzerinden veya Sağlık Bakanlığı'nın resmi Aşı Portalı üzerinden takip edebilirsiniz.</p>
             <a href="https://asi.saglik.gov.tr/" target="_blank" class="btn-3d">T.C. Sağlık Bakanlığı Aşı Portalı'na Git</a>
@@ -281,5 +400,412 @@
 
     </div>
 
+    <!-- HESAPLAYICI JAVASCRIPT KODLARI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var brandsData = {
+                meningokok: [
+                    { value: "nimenrix", text: "MenACWY (Nimenrix)" },
+                    { value: "menveo", text: "MenACWY (Menveo)" },
+                    { value: "menactra", text: "MenACWY (Menactra)" },
+                    { value: "menquadfi", text: "MenACWY (MenQuadfi)" },
+                    { value: "bexsero", text: "MenB (Bexsero)" }
+                ],
+                rotavirus: [
+                    { value: "rotarix", text: "Rotarix (RV1 - Toplam 2 Doz)" },
+                    { value: "rotateq", text: "Rotateq (RV5 - Toplam 3 Doz)" }
+                ],
+                hpv: [ { value: "gardasil9", text: "HPV Aşısı (Gardasil/Cervarix)" } ],
+                vzv: [ 
+                    { value: "varilrix", text: "Suçiçeği (Çocuk/Genç)" },
+                    { value: "zona", text: "Zona / Herpes Zoster (50 Yaş Üstü)" }
+                ]
+            };
+
+            var pathogenSelect = document.getElementById("pathogen");
+            var brandSelect = document.getElementById("vaccine-brand");
+            var historyStatus = document.getElementById("history-status");
+            var historyDoses = document.getElementById("history-doses");
+            var vaccineForm = document.getElementById("vaccine-form");
+
+            pathogenSelect.addEventListener('change', function() {
+                var selectedValue = this.value;
+                while (brandSelect.options.length > 0) {
+                    brandSelect.remove(0);
+                }
+                var defaultOpt = new Option("Marka seçiniz...", "", true, true);
+                defaultOpt.disabled = true;
+                brandSelect.options.add(defaultOpt);
+
+                if (brandsData[selectedValue]) {
+                    brandsData[selectedValue].forEach(function(b) {
+                        brandSelect.options.add(new Option(b.text, b.value));
+                    });
+                }
+            });
+
+            historyStatus.addEventListener('change', function() {
+                var isVaccinated = this.value === "asilandi";
+                document.getElementById("history-details").style.display = isVaccinated ? "block" : "none";
+                if(isVaccinated && historyDoses.value) {
+                    generateDateInputs();
+                }
+            });
+
+            historyDoses.addEventListener('input', function() {
+                generateDateInputs();
+            });
+
+            function generateDateInputs() {
+                var doses = parseInt(document.getElementById("history-doses").value) || 0;
+                var container = document.getElementById("dose-dates-container");
+                container.innerHTML = "";
+                for (var i = 1; i <= doses; i++) {
+                    container.innerHTML += 
+                        '<div class="form-group dose-date-field">' +
+                            '<label style="color: var(--calc-secondary); font-size: 13px;">' + i + '. Doz Uygulanma Tarihi</label>' +
+                            '<input type="date" id="dose-date-' + i + '" required>' +
+                        '</div>';
+                }
+            }
+
+            function formatDate(d) {
+                return d.toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' });
+            }
+
+            function addMonths(d, m) {
+                var nd = new Date(d);
+                nd.setMonth(nd.getMonth() + m);
+                return nd;
+            }
+
+            function addDays(d, days) {
+                var nd = new Date(d);
+                nd.setDate(nd.getDate() + days);
+                return nd;
+            }
+
+            function maxDate() {
+                var max = new Date(0);
+                for(var i=0; i<arguments.length; i++) {
+                    if(arguments[i] > max) max = arguments[i];
+                }
+                return max;
+            }
+
+            function getAgeInMonthsFloat(d1, d2) {
+                return (d2 - d1) / (1000 * 60 * 60 * 24 * 30.4375);
+            }
+
+            function formatAgeDisplay(monthsFloat) {
+                if (monthsFloat < 1) return Math.floor(monthsFloat * 30.4375) + " günlük";
+                if (monthsFloat < 24) return Math.floor(monthsFloat) + " aylık";
+                return Math.floor(monthsFloat / 12) + " yaş (" + Math.floor(monthsFloat) + " ay)";
+            }
+
+            vaccineForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                try {
+                    var patientName = document.getElementById("patient-name").value;
+                    var dobInput = document.getElementById("dob").value;
+                    var pathogen = document.getElementById("pathogen").value;
+                    var brandVal = document.getElementById("vaccine-brand").value;
+                    var statusVal = document.getElementById("history-status").value;
+                    var isImmuno = document.getElementById("immuno-status").checked;
+                    
+                    var dob = new Date(dobInput);
+                    var today = new Date(); today.setHours(0,0,0,0);
+                    
+                    if (dob > today) {
+                        alert("Doğum tarihi bugünden ileri bir tarih olamaz.");
+                        return;
+                    }
+
+                    var currentAgeMonths = getAgeInMonthsFloat(dob, today);
+
+                    var resultHTML = "";
+                    var schedule = [];
+                    var isWarning = false;
+
+                    function pushDose(name, exactDateObj, noteText, isWarnFlag) {
+                        var isPast = exactDateObj <= today;
+                        schedule.push({
+                            dose: name,
+                            exactDate: isPast && !isWarnFlag && name !== "Tamamlandı" && name !== "İptal" ? formatDate(today) : (isWarnFlag || name === "Tamamlandı" ? "-" : formatDate(exactDateObj)),
+                            note: isPast && !isWarnFlag && name !== "Tamamlandı" && name !== "İptal" ? "Hemen Uygulanabilir (Zamanı Gelmiş)" : noteText,
+                            isWarn: isWarnFlag
+                        });
+                    }
+
+                    if (statusVal === "yeni") {
+                        resultHTML += '<span class="badge new">Yeni Başlangıç</span><br>';
+                        
+                        if (pathogen === "hpv") {
+                            if (currentAgeMonths < 108) { 
+                                pushDose("Erken Yaş", today, "9 yaşından itibaren önerilmektedir.", true); isWarning = true;
+                            } else if (currentAgeMonths < 180 && !isImmuno) { 
+                                pushDose("1. Doz", today, "Hemen Uygulanır");
+                                pushDose("2. Doz (Son)", addMonths(today, 6), "İlk dozdan 6-12 ay sonra");
+                            } else { 
+                                var noteEk = isImmuno ? " (Bağışıklık nedeniyle 3 doz)" : " (15 Yaş Üstü)";
+                                pushDose("1. Doz", today, "Hemen Uygulanır" + noteEk);
+                                pushDose("2. Doz", addMonths(today, 2), "İlk dozdan 1-2 ay sonra");
+                                pushDose("3. Doz (Son)", addMonths(today, 6), "İlk dozdan 6 ay sonra");
+                            }
+                        }
+                        else if (pathogen === "rotavirus") {
+                            var maxD1Date = addDays(dob, 104);
+                            if (today > maxD1Date) {
+                                pushDose("Uygulanamaz", today, "14 hafta 6 gün sınırı aşılmış.", true); isWarning = true;
+                            } else {
+                                pushDose("1. Doz", today, "Hemen Uygulanır");
+                                pushDose("2. Doz", addMonths(today, 1), "İlk dozdan min 4 hafta sonra");
+                                if (brandVal === "rotateq") pushDose("3. Doz", addMonths(today, 2), "İkinci dozdan min 4 hafta sonra");
+                            }
+                        }
+                        else if (brandVal === "zona") {
+                            pushDose("1. Doz", today, "Hemen Uygulanır");
+                            pushDose("2. Doz (Son)", addMonths(today, 2), "İlk dozdan 2-6 ay sonra");
+                        }
+                        else if (brandVal === "varilrix") {
+                            if (currentAgeMonths < 12) {
+                                pushDose("Beklemede", addMonths(dob, 12), "Rutin 12. ayda başlanır.", true); isWarning = true;
+                            } else if (currentAgeMonths < 48) {
+                                pushDose("1. Doz", today, "Hemen Uygulanır");
+                                pushDose("2. Doz", addMonths(dob, 48), "4 yaş civarında");
+                            } else {
+                                pushDose("1. Doz", today, "Hemen Uygulanır");
+                                pushDose("2. Doz", addMonths(today, 1), "İlk dozdan en az 1 ay sonra");
+                            }
+                        }
+                        else if (pathogen === "meningokok") {
+                            if (brandVal === "nimenrix") {
+                                if (currentAgeMonths < 6) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                    var d3ay = 12 - currentAgeMonths > 2 ? Math.floor(12 - currentAgeMonths) : 2;
+                                    pushDose("3. Doz (Rapel)", maxDate(addMonths(today, 4), addMonths(dob, 12)), "12. aydan sonra");
+                                } else if (currentAgeMonths < 12) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                } else {
+                                    pushDose("Tek Doz", today, "12 ay ve üzeri olduğu için tek doz");
+                                }
+                            } else if (brandVal === "menveo") {
+                                if (currentAgeMonths < 7) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                    var d3ay = 12 - currentAgeMonths > 2 ? Math.floor(12 - currentAgeMonths) : 2;
+                                    pushDose("3. Doz", maxDate(addMonths(today, 4), addMonths(dob, 12)), "12-16 ay arasında");
+                                } else if (currentAgeMonths < 24) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                } else {
+                                    pushDose("Tek Doz", today, "2 yaş üzeri olduğu için tek doz");
+                                }
+                            } else if (brandVal === "menactra") {
+                                if (currentAgeMonths < 9) {
+                                    pushDose("Erken Yaş", addMonths(dob, 9), "Menactra 9. aydan itibaren uygulanır.", true); isWarning = true;
+                                } else if (currentAgeMonths < 24) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 3), "İlk dozdan min 3 ay sonra");
+                                } else {
+                                    pushDose("Tek Doz", today, "2 yaş üzeri olduğu için tek doz");
+                                }
+                            } else if (brandVal === "menquadfi") {
+                                if (currentAgeMonths < 12) {
+                                    pushDose("Erken Yaş", addMonths(dob, 12), "1 yaşından itibaren uygulanır.", true); isWarning = true;
+                                } else {
+                                    pushDose("Tek Doz", today, "Hemen Uygulanır");
+                                }
+                            } else if (brandVal === "bexsero") {
+                                if (currentAgeMonths < 6) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                    pushDose("3. Doz (Rapel)", maxDate(addMonths(today, 8), addMonths(dob, 12)), "İkinci dozdan min 6 ay sonra (12. aydan sonra)");
+                                } else if (currentAgeMonths < 12) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                    pushDose("3. Doz (Rapel)", maxDate(addMonths(today, 4), addMonths(dob, 12)), "Primer seriden min 2 ay sonra (12-23 ay arası)");
+                                } else if (currentAgeMonths < 24) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                    pushDose("3. Doz (Rapel)", addMonths(today, 14), "Primer seriden 12-23 ay sonra");
+                                } else if (currentAgeMonths < 120) {
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 2), "İlk dozdan ≥2 ay sonra");
+                                } else { 
+                                    pushDose("1. Doz", today, "Hemen Uygulanır");
+                                    pushDose("2. Doz", addMonths(today, 1), "İlk dozdan min 1 ay sonra");
+                                }
+                            }
+                        }
+                    } 
+                    else {
+                        var prevDoses = parseInt(document.getElementById("history-doses").value) || 0;
+                        var pastDates = [];
+                        for(var i=1; i<=prevDoses; i++) {
+                            var dVal = document.getElementById("dose-date-" + i).value;
+                            if (!dVal) { alert("Lütfen önceki dozların tarihlerini eksiksiz giriniz."); return; }
+                            pastDates.push(new Date(dVal));
+                        }
+                        
+                        var date1 = pastDates[0];
+                        var lastDate = pastDates[prevDoses - 1];
+                        
+                        var ageAtD1 = getAgeInMonthsFloat(dob, date1); 
+                        
+                        resultHTML += '<span class="badge catchup">Eksik Doz Tamamlama</span><br>';
+                        resultHTML += '<strong>İlk Doz Uygulandığındaki Yaşı:</strong> ' + formatAgeDisplay(ageAtD1) + '<br><br>';
+
+                        if (pathogen === "hpv") {
+                            var totalNeeded = (ageAtD1 < 180 && !isImmuno) ? 2 : 3;
+                            if (prevDoses >= totalNeeded) {
+                                pushDose("Tamamlandı", today, "Şema tamamlanmış.");
+                            } else if (prevDoses === 1) {
+                                if (totalNeeded === 2) {
+                                    pushDose("2. Doz (Son)", maxDate(today, addMonths(date1, 6)), "İlk dozdan min 6 ay sonra");
+                                } else {
+                                    var d2 = maxDate(today, addMonths(date1, 2));
+                                    pushDose("2. Doz", d2, "İlk dozdan min 2 ay sonra");
+                                    pushDose("3. Doz (Son)", maxDate(addMonths(d2, 3), addMonths(date1, 6)), "İlk dozdan min 6 ay sonra");
+                                }
+                            } else if (prevDoses === 2 && totalNeeded === 3) {
+                                pushDose("3. Doz (Son)", maxDate(today, addMonths(lastDate, 3), addMonths(date1, 6)), "Son dozdan min 3 ay, ilk dozdan min 6 ay sonra");
+                            }
+                        }
+                        else if (pathogen === "rotavirus") {
+                            var maxFinalDate = addDays(dob, 240);
+                            if (today > maxFinalDate) {
+                                pushDose("İptal", today, "8 aylık sınır aşıldığı için aşılamaya devam edilmez.", true); isWarning = true;
+                            } else {
+                                var totalDoses = brandVal === "rotarix" ? 2 : 3;
+                                var current = prevDoses + 1;
+                                var baseD = lastDate;
+                                while (current <= totalDoses) {
+                                    var nextD = maxDate(today, addDays(baseD, 28));
+                                    pushDose(current + ". Doz", nextD, "Önceki dozdan min 4 hafta sonra");
+                                    baseD = nextD; 
+                                    current++;
+                                }
+                                if (prevDoses >= totalDoses) pushDose("Tamamlandı", today, "Ek doza gerek yok.");
+                            }
+                        }
+                        else if (brandVal === "zona") {
+                            if (prevDoses === 1) {
+                                pushDose("2. Doz (Son)", maxDate(today, addMonths(date1, 2)), "İlk dozdan min 2 ay sonra");
+                            } else pushDose("Tamamlandı", today, "Şema tamamlanmış.");
+                        }
+                        else if (brandVal === "varilrix") {
+                            if (prevDoses === 1) {
+                                if (ageAtD1 >= 48) {
+                                    pushDose("2. Doz", maxDate(today, addMonths(date1, 1)), "İlk dozdan min 1 ay sonra");
+                                } else {
+                                    pushDose("2. Doz", maxDate(today, addMonths(dob, 48)), "4 yaş civarında");
+                                }
+                            } else pushDose("Tamamlandı", today, "Şema tamamlanmış.");
+                        }
+                        else if (pathogen === "meningokok") {
+                            if (brandVal === "bexsero") {
+                                if (ageAtD1 < 6) {
+                                    if (prevDoses === 1) {
+                                        var d2 = maxDate(today, addMonths(date1, 2));
+                                        pushDose("2. Doz", d2, "İlk dozdan min 2 ay sonra");
+                                        pushDose("3. Doz (Rapel)", maxDate(addMonths(d2, 6), addMonths(dob, 12)), "İkinci dozdan min 6 ay sonra (12. aydan sonra)");
+                                    } else if (prevDoses === 2) {
+                                        pushDose("3. Doz (Rapel)", maxDate(today, addMonths(lastDate, 6), addMonths(dob, 12)), "İkinci dozdan min 6 ay sonra (12. aydan sonra)");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                } 
+                                else if (ageAtD1 >= 6 && ageAtD1 < 12) {
+                                    if (prevDoses === 1) {
+                                        var d2 = maxDate(today, addMonths(date1, 2));
+                                        pushDose("2. Doz", d2, "İlk dozdan min 2 ay sonra");
+                                        pushDose("3. Doz (Rapel)", maxDate(addMonths(d2, 2), addMonths(dob, 12)), "Primer seriden min 2 ay sonra (12-23 ay arası)");
+                                    } else if (prevDoses === 2) {
+                                        pushDose("3. Doz (Rapel)", maxDate(today, addMonths(lastDate, 2), addMonths(dob, 12)), "Primer seriden min 2 ay sonra (12-23 ay arası)");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                }
+                                else if (ageAtD1 >= 12 && ageAtD1 < 24) {
+                                    if (prevDoses === 1) {
+                                        var d2 = maxDate(today, addMonths(date1, 2));
+                                        pushDose("2. Doz", d2, "İlk dozdan min 2 ay sonra");
+                                        pushDose("3. Doz (Rapel)", addMonths(d2, 12), "Primer seriden 12 ay sonra");
+                                    } else if (prevDoses === 2) {
+                                        pushDose("3. Doz (Rapel)", maxDate(today, addMonths(lastDate, 12)), "Primer seriden 12 ay sonra");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                }
+                                else if (ageAtD1 >= 24 && ageAtD1 < 120) {
+                                    if (prevDoses === 1) {
+                                        pushDose("2. Doz", maxDate(today, addMonths(date1, 2)), "İlk dozdan min 2 ay sonra");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                }
+                                else {
+                                    if (prevDoses === 1) {
+                                        pushDose("2. Doz", maxDate(today, addMonths(date1, 1)), "İlk dozdan min 1 ay sonra");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                }
+                            } 
+                            else if (brandVal === "nimenrix") {
+                                if (ageAtD1 < 6) {
+                                    if (prevDoses === 1) {
+                                        var d2 = maxDate(today, addMonths(date1, 2));
+                                        pushDose("2. Doz", d2, "İlk dozdan min 2 ay sonra");
+                                        pushDose("3. Doz (Rapel)", maxDate(addMonths(d2, 2), addMonths(dob, 12)), "12. aydan sonra");
+                                    } else if (prevDoses === 2) {
+                                        pushDose("3. Doz (Rapel)", maxDate(today, addMonths(lastDate, 2), addMonths(dob, 12)), "12. aydan sonra (Öncekinden min 2 ay)");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                } else if (ageAtD1 >= 6 && ageAtD1 < 12) {
+                                    if (prevDoses === 1) {
+                                        pushDose("2. Doz", maxDate(today, addMonths(date1, 2), addMonths(dob, 12)), "12. aydan sonra (Öncekinden min 2 ay)");
+                                    } else pushDose("Tamamlandı", today, "Şema tamamlandı.");
+                                } else {
+                                    if (prevDoses >= 1) pushDose("Tamamlandı", today, "1 yaşından sonra tek doz yapıldıysa şema biter.");
+                                }
+                            }
+                            else {
+                                var aralik = (brandVal === 'menactra') ? 3 : 2;
+                                pushDose("Sıradaki Doz", maxDate(today, addMonths(lastDate, aralik)), "Tabloya göre dozlar arası min " + aralik + " ay olmalıdır.");
+                            }
+                        }
+                    }
+
+                    var container = document.getElementById("result-container");
+                    var calendarView = document.getElementById("calendar-view");
+                    var nameDisplay = document.getElementById("patient-name-display");
+                    var ageDisplay = document.getElementById("patient-age-display");
+                    
+                    container.className = isWarning ? "warning" : "";
+                    document.getElementById("result-title").innerHTML = isWarning ? "⚠️ Dikkat Edilmesi Gereken Durum" : "📅 Aşı Önerisi ve Takvimi";
+                    
+                    nameDisplay.innerHTML = '👤 Hasta: ' + patientName;
+                    ageDisplay.innerHTML = 'Mevcut Yaş: ' + formatAgeDisplay(currentAgeMonths) + ' (DoB: ' + formatDate(dob) + ')';
+                    
+                    document.getElementById("result-content").innerHTML = resultHTML + "Aşağıdaki takvim, kalan tüm dozları ve klinik rehberlerdeki (resmi) minimum doz aralıklarını listelemektedir:";
+                    
+                    calendarView.innerHTML = "";
+                    schedule.forEach(function(item) {
+                        var card = document.createElement("div");
+                        card.className = "calendar-card " + (item.isWarn ? 'warning-card' : '');
+                        card.innerHTML = 
+                            '<div class="calendar-header">' + item.dose + '</div>' +
+                            '<div class="calendar-body">' +
+                                '<div class="calendar-date">' + item.exactDate + '</div>' +
+                                '<div class="calendar-note">' + item.note + '</div>' +
+                            '</div>';
+                        calendarView.appendChild(card);
+                    });
+
+                    container.style.display = "block";
+                    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                } catch(error) {
+                    console.error("Hesaplama sırasında hata oluştu:", error);
+                    alert("Hesaplama sırasında bir hata oluştu. Lütfen tarihleri kontrol ediniz.");
+                }
+            });
+
+        });
+    </script>
 </body>
 </html>
