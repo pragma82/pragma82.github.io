@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diyabet (Şeker Hastalığı) Rehberi - Efeler 5 Nolu ASM</title>
+    <style>
+        /* --- SİTE GENEL AYARLARI --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI VE BANNER --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 220px; 
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li { position: relative; }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ANA İÇERİK ALANI --- */
+        .main-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d32f2f;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1d3557;
+            font-size: 28px;
+            margin-bottom: 10px;
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        /* --- METALİK VE ÇARPICI PORTFOLYO KİTAPÇIĞI TASARIMI --- */
+        .portfolio-book {
+            border-radius: 20px; 
+            /* Dış kapsayıcıya güçlü bir metalik gölge */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1); 
+            overflow: hidden;
+            margin: 20px 0 40px 0;
+            position: relative;
+            touch-action: pan-y; 
+            border: 1px solid #b5c6e0;
+        }
+
+        .pb-pages-container {
+            position: relative;
+            min-height: 480px;
+            /* Kitapçığın içi için şık, göz yormayan ama çarpıcı "Buzlu Çelik / Gümüş" metalik zemin */
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 50%, #d1d9e6 100%);
+        }
+
+        .pb-page {
+            display: none;
+            padding: 0;
+            animation: slideFadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .pb-page.active {
+            display: block;
+        }
+
+        @keyframes slideFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pb-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 3px solid #2c3e50; /* Resmin altına keskin kurumsal çizgi */
+        }
+
+        /* YANYANA İKİ RESİM İÇİN ÖZEL YAPI (5. SAYFA) */
+        .dual-image-container {
+            display: flex;
+            height: 280px;
+            width: 100%;
+            border-bottom: 3px solid #2c3e50;
+        }
+        
+        .dual-image-container img {
+            flex: 1; /* Resimlerin eşit alanı paylaşmasını sağlar */
+            width: 50%;
+            object-fit: cover;
+        }
+
+        /* Alacalı Metalik Dik Dikey Çizgi (5. Sayfa Resimler Arası) */
+        .dual-image-divider {
+            width: 8px;
+            flex-shrink: 0;
+            background: linear-gradient(to bottom, #8a95a5, #eef2f3, #5a6575, #ffffff, #8a95a5);
+            box-shadow: inset 1px 0 2px rgba(255,255,255,0.8), -2px 0 5px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .pb-content {
+            padding: 35px 40px;
+        }
+
+        .pb-content h3 {
+            color: #d32f2f;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .pb-content p {
+            font-size: 16.5px;
+            line-height: 1.8;
+            color: #1a252f; /* Metalik zeminde okunurluğu artırmak için çok koyu lacivert/siyah metin */
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        /* Soru Kısımları - Kalın (Bold) ve Dikkat Çekici */
+        .pb-question {
+            font-weight: 800 !important;
+            color: #d32f2f !important;
+            font-size: 18px !important;
+            margin-top: 25px;
+            margin-bottom: 10px !important;
+            border-left: 4px solid #d32f2f;
+            padding-left: 15px;
+            background: linear-gradient(90deg, rgba(211,47,47,0.08) 0%, rgba(255,255,255,0) 100%);
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        /* Cevap Kısımları */
+        .pb-answer {
+            margin-top: 0;
+            padding-left: 5px;
+        }
+
+        /* Zarif Kontrol Paneli */
+        .pb-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px 30px;
+            background: #ffffff;
+            border-top: 1px solid #d1d9e6;
+        }
+
+        .pb-btn {
+            background: #f8f9fa;
+            border: 1px solid #c2d3e5;
+            color: #2c3e50;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pb-btn:hover:not(:disabled) {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .pb-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: #fff;
+        }
+
+        .pb-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pb-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: all 0.4s ease;
+        }
+
+        .pb-dot.active {
+            background: #d32f2f;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Alt kısımdaki geri dön butonu */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1abc9c;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #128770; }
+
+        @media (max-width: 768px) {
+            .metallic-navbar { padding: 0; }
+            .pb-content { padding: 25px 20px; }
+            .pb-image, .dual-image-container { height: 200px; }
+            .pb-controls { padding: 15px 20px 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST KISIM (Banner ve Menü) -->
+    <div class="header-wrapper">
+        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="asi-takvimi.html">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="kronik-hastaliklar.html">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="#">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <div class="main-container">
+        
+        <h1 class="page-title">Diyabet (Şeker Hastalığı) Rehberi</h1>
+        <p class="page-subtitle">Sağlığınızı korumak için bilmeniz gereken kritik noktaları kaydırarak okuyabilirsiniz.</p>
+        
+        <!-- METALİK PORTFOLYO KİTAPÇIĞI (5 SAYFA) -->
+        <div class="portfolio-book" id="diabetes-book">
+            <div class="pb-pages-container">
+                
+                <!-- Sayfa 1: Genel Bilgi -->
+                <div class="pb-page active" data-page="1">
+                    <img src="diyabetgenel.jpg" alt="Diyabet Genel" class="pb-image">
+                    <div class="pb-content">
+                        <p>Diyabet yani şeker hastalığı sadece kan şekerinin yüksek olması değildir. Kan şekerinin yüksek seyretmesi ve şeker hastalığı vücudumuzdaki çok sayıda organı olumsuz etkiler. Örneğin gözlerimiz, böbreklerimiz, kalp ve damar sağlığımız şeker hastalığından olumsuz etkilenir.</p>
+                        <p>Şeker hastası olan kişiler kalp ve damar hastalıkları açısından yüksek risk altındadır. Şeker hastalığına ek olarak yüksek tansiyon ve obezite de kalp ve damar sağlığını olumsuz etkiler. Bir şeker hastasını tedavi ederken amacımız tek başına şekeri normale getirmek değil aynı zamanda hastanın hayati organlarını ve kalp-damar sağlığını korumaktır.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 2: İlaç Kullanımı ve Takipler -->
+                <div class="pb-page" data-page="2">
+                    <img src="diyabethastasi.jpg" alt="Diyabet Hastası" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Yeni şeker hastalığı tanısı konuldu. İlaçlarımı kullanıyorum. Ne yapmalıyım?</p>
+                        <p class="pb-answer">Öncelikle 3 aylık kan şekerinize hekiminizin önerisine göre 3-6 aylık aralıklarla baktırmalısınız. Eğer şeker düzeyleri kötü seyrediyorsa bu süre 3 ay ama her şey yolunda ise en fazla 6 ay olmalıdır. 3 aydan daha sık aralıklarla 3 aylık kan şekerinize baktırmanın bir yararı olmaz. Ayrıca bazı kan tetkiklerinizi yılda 1 kez yaptırmalısınız.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 3: Tetkikler -->
+                <div class="pb-page" data-page="3">
+                    <img src="dmtestler.jpg" alt="Diyabet Testleri" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Hangi tetkikleri, hangi sıklıkta ve nerede yaptırabilirim?</p>
+                        <p class="pb-answer">Yılda 1 kez kolesterol düzeyinize ve böbrek fonksiyonlarınıza aile hekimliğinde baktırabilirsiniz. Ayrıca böbreklerinizin durumunu anlamak için yılda bir kez detaylı bir idrar testi yaptırmalısınız. Bu test ise hastanelerde uygulanmaktadır. Yine yılda 1 kez bir kardiyoloji ve göz hastalıkları muayenesinden geçmenizi öneririz. En başta söylediğimiz gibi şeker hastaları, kalp ve damar hastalıkları yönünden yüksek riskli sayılırlar. Bunun dışında şeker hastalığı göz dibinde kanamalara hatta körlüğe neden olabilir. Bu nedenle yılda 1 kez göz doktoru muayenesi önerilir.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 4: Ayak Bakımı ve Yaralar -->
+                <div class="pb-page" data-page="4">
+                    <img src="dmayak.jpg" alt="Diyabetik Ayak Bakımı" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Şeker hastalarının yaraları daha zor iyileşiyormuş. Doğru mu?</p>
+                        <p class="pb-answer">Evet. Şeker hastalarının bağışıklık sistemleri zayıflar. Yara iyileşmesi gecikir ve yaralarda iltihap oluşma riski artar. Özellikle ayaklarımız bu durumda daha çok etkilenir. Şeker hastaları ayak bakımlarına dikkat etmelidir. Örneğin ayak parmak aralarınızda ya da tırnaklarınızda mantar varsa öncelikle aile hekimine başvurun.</p>
+                        <p class="pb-answer">Bunun dışında edinmeniz gereken bazı alışkanlıklar var. Ayaklarınız ıslak ya da terli ise mutlaka parmak araları ve topuklar dahil iyice kurulayın. Önü açık ya da parmak arası terlik değil önü kapalı terlikleri tercih edin. Her gün ayakkabınızı ya da terliğinizi giyerken içinde kum, taş, çivi gibi yaralayıcı bir cisim olup olmadığını elle ve gözle kontrol edin çünkü şeker hastaları ağrıyı daha az hissederler. Her akşam ayakkabı ve çoraplarınızı çıkardıktan sonra ayaklarınızı parmak araları ve topuklar da dahil olmak üzere iyice kontrol edin. Herhangi bir yara, çatlak görmeniz durumunda bu yara ufak da olsa aile hekiminize başvurun ve şeker hastası olduğunuzu hatırlatın.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 5: İkili Görsel (Kalp ve Göz) ve Korunma Yolları -->
+                <div class="pb-page" data-page="5">
+                    <!-- Metalik çizgiyle ayrılmış ikili görsel yapısı -->
+                    <div class="dual-image-container">
+                        <img src="dmkalp.jpg" alt="Diyabet ve Kalp">
+                        <div class="dual-image-divider"></div>
+                        <img src="dmgoz.jpg" alt="Diyabet ve Göz">
+                    </div>
+                    
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Bir şeker hastası kalp ve damar sağlığını korumak için daha neler yapabilir?</p>
+                        <p class="pb-answer">Kilonuzu kontrol altında tutmalı karbonhidratı kısıtlamalısınız. Bir diyetisyene başvurun ve diyet önerilerine mutlaka uyun. Eğer isterseniz aile hekiminiz sizi diyetisyene yönlendirebilir. Ayrıca haftanın 5 günü ve günde yarım saat tempolu yürüyüş egzersiz olarak yeterli gelecektir. Ayrıca sigara tek başına kalp ve damar hastalıkları riskini artırır. Şeker hastalarının sigara kullanması da riski daha da çok artırır.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Kontrol Noktaları ve Butonlar (5 Sayfa İçin) -->
+            <div class="pb-controls">
+                <button class="pb-btn" id="pb-prev" disabled>&#8592;</button>
+                <div class="pb-dots">
+                    <span class="pb-dot active" data-page="1"></span>
+                    <span class="pb-dot" data-page="2"></span>
+                    <span class="pb-dot" data-page="3"></span>
+                    <span class="pb-dot" data-page="4"></span>
+                    <span class="pb-dot" data-page="5"></span>
+                </div>
+                <button class="pb-btn" id="pb-next">&#8594;</button>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="kronik-hastaliklar.html" class="back-link">⟵ Kronik Hastalıklar Menüsüne Dön</a>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT (Sadece Kitapçık İçin) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const totalPages = 5; // Bu sayfamız 5 sayfadan oluşuyor
+            const pages = document.querySelectorAll('.pb-page');
+            const dots = document.querySelectorAll('.pb-dot');
+            const prevBtn = document.getElementById('pb-prev');
+            const nextBtn = document.getElementById('pb-next');
+            const bookContainer = document.getElementById('diabetes-book');
+
+            function updateBook() {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if(parseInt(page.getAttribute('data-page')) === currentPage) {
+                        page.classList.add('active');
+                    }
+                });
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index + 1 === currentPage);
+                });
+                
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if(currentPage < totalPages) {
+                    currentPage++;
+                    updateBook();
+                    bookContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if(currentPage > 1) {
+                    currentPage--;
+                    updateBook();
+                    bookContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            // Mobilde Parmakla Kaydırma (Swipe)
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            bookContainer.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, {passive: true});
+
+            bookContainer.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, {passive: true});
+
+            function handleSwipe() {
+                const threshold = 50; 
+                if (touchEndX < touchStartX - threshold) {
+                    if(currentPage < totalPages) { currentPage++; updateBook(); }
+                }
+                if (touchEndX > touchStartX + threshold) {
+                    if(currentPage > 1) { currentPage--; updateBook(); }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
