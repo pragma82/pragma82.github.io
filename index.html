@@ -124,7 +124,7 @@
             display: block;
         }
 
-        /* --- YENİ İKİ SÜTUNLU IZGARA (GRID) YERLEŞİMİ --- */
+        /* --- İKİ SÜTUNLU IZGARA (GRID) YERLEŞİMİ --- */
         .homepage-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -147,18 +147,49 @@
             border-radius: 12px;
             padding: 30px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #e0e0e0;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             text-align: center;
             flex: 1; 
+            position: relative; /* Köşedeki görseller için şart */
+            overflow: hidden; /* Resimlerin köşelerden taşmasını engeller */
         }
 
-        /* Zarif Arka Plan */
+        /* İçeriklerin resimlerin üstünde kalmasını sağlar */
+        .card-text-content, .btn-red, .btn-teal {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- METALİK MAVİ ARKA PLAN (ŞIK VE SADE) --- */
         .elegant-bg {
-            background-color: #f8fafc;
+            /* Işık oyunlarıyla elde edilmiş sade metalik mavi gradient */
+            background: linear-gradient(135deg, #e2eaf4 0%, #f8fbff 35%, #d1e0f0 100%);
+            border: 1px solid #c2d3e5;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.9), 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        /* Sağ Alt Köşe Görselleri */
+        .corner-img {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255,255,255,0.6);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 0.85; /* Metinle karışmasın diye çok hafif transparan */
+            z-index: 0;
+            transition: transform 0.4s ease;
+        }
+        
+        .elegant-bg:hover .corner-img {
+            transform: scale(1.1) rotate(-5deg); /* Fareyle üzerine gelince şık bir efekt */
+            opacity: 1;
         }
 
         /* Duyuru Kartı Özel Ayarları */
@@ -168,18 +199,21 @@
             align-items: flex-start;
             text-align: left;
             border-top: 5px solid #f39c12;
+            border-left: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
             height: 100%;
         }
 
         .info-card h3 {
             margin-top: 0;
-            color: #2c3e50;
+            color: #1d3557; /* Metalik maviyle uyumlu koyu lacivert başlık */
             font-size: 20px;
             margin-bottom: 15px;
         }
 
         .info-card p {
-            color: #555;
+            color: #444;
             font-size: 15px;
             line-height: 1.6;
             margin-bottom: 25px;
@@ -288,15 +322,16 @@
     <!-- İÇERİK ALANI (Kartların bulunduğu kısım) -->
     <div class="main-container">
         
-        <!-- YENİ İKİ SÜTUNLU ANA YERLEŞİM -->
+        <!-- İKİ SÜTUNLU ANA YERLEŞİM -->
         <div class="homepage-layout">
             
             <!-- SOL SÜTUN -->
             <div class="left-column">
                 
-                <!-- 1. MHRS Kartı -->
+                <!-- 1. MHRS Kartı (Metalik Mavi + Takvim Görseli) -->
                 <div class="info-card elegant-bg">
-                    <div>
+                    <img src="https://images.pexels.com/photos/273153/pexels-photo-273153.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Takvim" class="corner-img">
+                    <div class="card-text-content">
                         <h3>Aile Sağlığı Merkezimize Hoş Geldiniz</h3>
                         <p>Bu platform üzerinden güncel çalışma saatlerimizi takip edebilir, sağlık rehberimizden faydalı bilgilere ulaşabilir ve poliklinik duyurularını öğrenebilirsiniz.</p>
                     </div>
@@ -306,13 +341,14 @@
                 <!-- 2. Metalik Ayırıcı -->
                 <div class="metallic-divider"></div>
 
-                <!-- 3. Aşı Planlayıcı Kartı -->
+                <!-- 3. Aşı Planlayıcı Kartı (Metalik Mavi + Gülen Çocuk Görseli) -->
                 <div class="info-card elegant-bg">
-                    <div>
+                    <!-- Pediatri ve sağlığı temsil eden neşeli bir çocuk görseli -->
+                    <img src="https://images.pexels.com/photos/1648377/pexels-photo-1648377.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Gülen Çocuk" class="corner-img">
+                    <div class="card-text-content">
                         <h3 style="color: #d32f2f;">Kişiye Özel Aşı Planlayıcı</h3>
-                        <p>Bebeğinizin doğum tarihine göre takvim dışı (özel) aşıları (Menenjit, Rotavirüs, HPV vb.) ne zaman yaptırmanız gerektiğini milimetrik olarak otomatik hesaplayın ve takvim çıktısı alın.</p>
+                        <p>Bebeğinizin doğum tarihine göre takvim dışı (özel) aşıları ne zaman yaptırmanız gerektiğini milimetrik olarak otomatik hesaplayın ve takvim çıktısı alın.</p>
                     </div>
-                    <!-- Butona tıklandığında aşı takvimi sayfasına ve doğrudan hesaplayıcıya gider -->
                     <a href="asi-takvimi.html#ozel-asi-hesaplayici" class="btn-teal">Planlayıcıyı Başlat ➔</a>
                 </div>
 
