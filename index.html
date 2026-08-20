@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efeler 5 Nolu ASM</title>
+    <title>Ana Sayfa - Efeler 5 Nolu ASM</title>
     <style>
-        /* Genel Ayarlar */
+        /* --- SİTE GENEL AYARLARI --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
@@ -14,29 +14,28 @@
             color: #333;
         }
 
-        /* --- ÜST KAPSAYICI --- */
+        /* --- ÜST KAPSAYICI VE BANNER --- */
         .header-wrapper {
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             z-index: 1000;
-            background-color: #ffffff; /* Banner arka planı temiz kalsın */
+            background-color: #ffffff;
         }
 
-    /* --- YENİ KENDİ TASARIMINIZ OLAN BANNER --- */
         .banner-image {
             width: 100%;
-            height: 170px; /* Afişin dikey kalınlığını burada şık bir boyuta sabitledik */
-            object-fit: cover; /* Resmi ezmeden/sündürmeden bu alana yayar, fazlalığı alttan/üstten tıraşlar */
-            object-position: center; /* Tıraşlama yaparken afişin tam ortasını (yazı ve logoları) odakta tutar */
+            height: 220px; 
+            object-fit: cover;
+            object-position: center;
             display: block;
         }
-        
-        /* --- METALİK NAVBAR TASARIMI (Artık ortalandı) --- */
+
+        /* --- METALİK NAVBAR --- */
         .metallic-navbar {
             background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
             border-bottom: 2px solid #7f8c8d;
             display: flex;
-            justify-content: center; /* Menü simetrik olarak ortada durur */
+            justify-content: center;
             padding: 0 20px; 
         }
 
@@ -65,7 +64,6 @@
             border-left: 1px solid rgba(0,0,0,0.2);
         }
 
-        /* Menünün ilk ve son çizgilerini düzeltme */
         .nav-links > li:first-child > a { border-left: none; }
         .nav-links > li:last-child > a { border-right: none; }
 
@@ -92,7 +90,7 @@
             list-style: none;
         }
 
-.dropdown-content li a {
+        .dropdown-content li a {
             color: #333;
             padding: 12px 16px;
             text-decoration: none;
@@ -100,7 +98,7 @@
             border-bottom: 1px solid #ddd;
             transition: background-color 0.2s;
             font-size: 15px;
-            white-space: nowrap; /* Metnin alt satıra kaymasını engeller, kutuyu esnetir */
+            white-space: nowrap; 
         }
 
         .dropdown-content li a:hover {
@@ -118,124 +116,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- İÇERİK ALANI --- */
+        /* --- ANA İÇERİK KAPSAYICISI --- */
         .main-container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 20px;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
+            display: block;
         }
 
-        .content-section {
-            background: white;
-            padding: 35px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .sidebar {
-            background: #fff9e6;
-            padding: 25px;
-            border-radius: 10px;
-            border-left: 5px solid #d32f2f; /* Logonuzdaki canlı kırmızı */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .btn-3d {
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #d32f2f; /* Logonuzdaki canlı kırmızı */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 6px 0 #b71c1c, 0 10px 15px rgba(0,0,0,0.2);
-            transition: all 0.15s ease;
-        }
-        .btn-3d:hover { background-color: #f44336; transform: translateY(-2px); box-shadow: 0 8px 0 #b71c1c, 0 15px 20px rgba(0,0,0,0.3); }
-        .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #b71c1c, 0 2px 5px rgba(0,0,0,0.2); }
-
-        /* Mobil Uyum (Küçük Ekranlar İçin) */
-        @media (max-width: 768px) {
-            .main-container { grid-template-columns: 1fr; }
-            .metallic-navbar { padding: 0; }
-        }
-
-        /* --- AŞI PLANLAYICI TANITIM KARTI (ANA SAYFA) --- */
-        .vaccine-promo-card {
-            display: flex;
-            background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-top: 35px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-        .vaccine-promo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .vaccine-promo-card img {
-            width: 200px;
-            object-fit: cover;
-        }
-        .promo-content {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .promo-content h3 {
-            color: #d32f2f;
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-        .promo-content p {
-            margin-top: 0;
-            color: #555;
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 18px;
-        }
-        .btn-promo {
-            align-self: flex-start;
-            background-color: #1abc9c;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.2s;
-            border-bottom: 3px solid #128770;
-        }
-        .btn-promo:hover {
-            background-color: #16a085;
-            transform: translateY(2px);
-            border-bottom-width: 1px;
-        }
-        @media (max-width: 768px) {
-            .vaccine-promo-card { flex-direction: column; }
-            .vaccine-promo-card img { width: 100%; height: 160px; }
-        }
-
-        /* --- YENİ KART VE IZGARA (GRID) YERLEŞİMİ --- */
+        /* --- YENİ İKİ SÜTUNLU IZGARA (GRID) YERLEŞİMİ --- */
         .homepage-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Sayfayı tam ortadan iki eşit sütuna böler */
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
-            margin-top: 30px;
         }
 
         .left-column {
             display: flex;
             flex-direction: column;
+            gap: 20px;
         }
 
         .right-column {
@@ -251,25 +150,25 @@
             border: 1px solid #e0e0e0;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Yazıları yukarı, butonu en aşağı iter */
-            align-items: center; /* Butonları ve yazıları tam merkeze ortalar */
+            justify-content: space-between;
+            align-items: center;
             text-align: center;
-            flex: 1; /* Kartların dikeyde eşit esnemesini sağlar */
+            flex: 1; 
         }
 
-        /* MHRS ve Aşı Kartı İçin Zarif Arka Plan */
+        /* Zarif Arka Plan */
         .elegant-bg {
-            background-color: #f8fafc; /* Çiğ beyaz yerine ferah, şık bir buz mavisi/grisi */
+            background-color: #f8fafc;
         }
 
         /* Duyuru Kartı Özel Ayarları */
         .duyuru-card {
-            background-color: #fffdf5; /* Duyurular için hafif sıcak, dikkati çeken bir ton */
+            background-color: #fffdf5;
             justify-content: flex-start;
             align-items: flex-start;
             text-align: left;
-            height: 100%; /* Sağ sütunun sol sütunla aynı boyda olmasını sağlar */
-            border-top: 5px solid #f39c12; /* Duyurulara dikkat çekici turuncu üst çizgi */
+            border-top: 5px solid #f39c12;
+            height: 100%;
         }
 
         .info-card h3 {
@@ -289,10 +188,10 @@
         /* --- PARLAK METALİK AYIRICI ÇİZGİ --- */
         .metallic-divider {
             height: 6px;
-            margin: 20px 0;
             border-radius: 3px;
             background: linear-gradient(to right, #9ca3af, #ffffff, #6b7280, #ffffff, #9ca3af);
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 2px 4px rgba(0,0,0,0.15);
+            flex-shrink: 0;
         }
 
         /* Buton Tasarımları */
@@ -331,18 +230,16 @@
         /* Mobilde (Telefonda) kartları alt alta dizme */
         @media (max-width: 768px) {
             .homepage-layout { grid-template-columns: 1fr; }
+            .metallic-navbar { padding: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Kapsayıcı ( + Navbar) -->
+    <!-- ÜST KISIM (Banner ve Menü) -->
     <div class="header-wrapper">
-        
-        <!-- Yüklediğiniz Özel  Dosyası -->
-        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
 
-        <!-- Metalik Navbar -->
         <nav class="metallic-navbar">
             <ul class="nav-links">
                 <li><a href="index.html">Ana Sayfa</a></li>
@@ -351,7 +248,7 @@
                     <a href="#">Doktorlarımız ▾</a>
                     <ul class="dropdown-content">
                         <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
-                        <li><a href="#">Uzm.Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
                         <li><a href="#">Dr. Abbas Yılmaz</a></li>
                         <li><a href="#">Dr. Ümit Yılmaz</a></li>
                     </ul>
@@ -360,10 +257,8 @@
                 <li class="dropdown">
                     <a href="#">Ebe/Hemşirelerimiz ▾</a>
                     <ul class="dropdown-content">
-                        <li><a href="#">Ebe Kübra Madenci</a></li>
-                        <li><a href="#">Ebe Şenay Başyiğit</a></li>
-                        <li><a href="#">Ebe Didem Yarımca</a></li>
-                        <li><a href="#">Ebe Gönül Yıldız</a></li>
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
                     </ul>
                 </li>
 
@@ -390,16 +285,9 @@
         </nav>
     </div>
 
-    <!-- Ana İçerik Alanı -->
+    <!-- İÇERİK ALANI (Kartların bulunduğu kısım) -->
     <div class="main-container">
         
-        <div class="content-section">
-            <h2>Aile Sağlığı Merkezimize Hoş Geldiniz</h2>
-            <p>Bu platform üzerinden güncel çalışma saatlerimizi takip edebilir, sağlık rehberimizden faydalı bilgilere ulaşabilir ve poliklinik duyurularını öğrenebilirsiniz.</p>
-            <br>
-            <a href="https://mhrs.gov.tr" target="_blank" class="btn-3d">MHRS Üzerinden Randevu Al</a>
-        </div>
-
         <!-- YENİ İKİ SÜTUNLU ANA YERLEŞİM -->
         <div class="homepage-layout">
             
@@ -424,6 +312,7 @@
                         <h3 style="color: #d32f2f;">Kişiye Özel Aşı Planlayıcı</h3>
                         <p>Bebeğinizin doğum tarihine göre takvim dışı (özel) aşıları (Menenjit, Rotavirüs, HPV vb.) ne zaman yaptırmanız gerektiğini milimetrik olarak otomatik hesaplayın ve takvim çıktısı alın.</p>
                     </div>
+                    <!-- Butona tıklandığında aşı takvimi sayfasına ve doğrudan hesaplayıcıya gider -->
                     <a href="asi-takvimi.html#ozel-asi-hesaplayici" class="btn-teal">Planlayıcıyı Başlat ➔</a>
                 </div>
 
@@ -450,7 +339,8 @@
             </div>
             
         </div>
-       
+        
+    </div>
 
 </body>
 </html>
