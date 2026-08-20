@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kronik Hastalık Uyarıları - Efeler 5 Nolu ASM</title>
+    <style>
+        /* --- SİTE GENEL AYARLARI --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI VE BANNER --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 220px; 
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li { position: relative; }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ANA İÇERİK KAPSAYICISI --- */
+        .main-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            display: block;
+        }
+
+        /* Başlık Stili */
+        .page-title {
+            text-align: center;
+            color: #1d3557;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* --- TOK METALİK MAVİ ARKA PLAN (KARTLARIN KAPSAYICISI) --- */
+        .dark-metal-bg {
+            /* Soluk olmayan, dikkat çekici, tok bir metalik lacivert/mavi yansıma */
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #152b52 100%);
+            border: 2px solid #3a6baf;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 15px 35px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            padding: 50px 30px;
+        }
+
+        /* --- HAREKETLİ VE DÖNEN KART IZGARASI --- */
+        .disease-grid {
+            display: grid;
+            /* Ekran boyutuna göre kartları otomatik yan yana dizer, sığmazsa alt satıra atar */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .disease-card {
+            display: block;
+            width: 100%;
+            max-width: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            /* Büyüme ve dönme efekti için yumuşak geçiş (transition) */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            text-decoration: none;
+            background-color: #fff; /* Resimlerin kenarlarında pürüz kalırsa beyaz göstersin */
+        }
+
+        .disease-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+            transition: transform 0.5s ease;
+        }
+
+        /* --- HOVER (FARE İLE ÜZERİNE GELİNCEKİ ANİMASYON) --- */
+        .disease-card:hover {
+            /* Hafifçe yukarı kalkar, %8 büyür ve 2 derece döner */
+            transform: translateY(-15px) scale(1.08) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
+
+        /* Resmin kendi içindeki hafif yakınlaşma efekti */
+        .disease-card:hover img {
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 768px) {
+            .metallic-navbar { padding: 0; }
+            .dark-metal-bg { padding: 30px 20px; }
+            /* Mobilde kartlar çok küçülmesin diye minimum genişliği artırdık */
+            .disease-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST KISIM (Banner ve Menü) -->
+    <div class="header-wrapper">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="asi-takvimi.html">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="kronik-hastaliklar.html">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="#">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <div class="main-container">
+        
+        <h1 class="page-title">Kronik Hastalık Uyarıları</h1>
+        <p class="page-subtitle">Hastalığınızla ilgili güncel rehberlere ve uyarılara ulaşmak için ilgili karta tıklayınız.</p>
+
+        <!-- TOK METALİK MAVİ KAPSAYICI İÇİNDE HAREKETLİ KARTLAR -->
+        <div class="dark-metal-bg">
+            <div class="disease-grid">
+                
+                <!-- 1. Diyabet -->
+                <a href="diyabet.html" class="disease-card">
+                    <img src="diyabet.jpg" alt="Diyabet (Şeker Hastalığı)">
+                </a>
+
+                <!-- 2. Hipertansiyon -->
+                <a href="hipertansiyon.html" class="disease-card">
+                    <img src="hipertansiyon.jpg" alt="Hipertansiyon (Tansiyon)">
+                </a>
+
+                <!-- 3. Hiperlipidemi -->
+                <a href="hiperlipidemi.html" class="disease-card">
+                    <img src="hiperlipidemi.jpg" alt="Hiperlipidemi (Kolesterol)">
+                </a>
+
+                <!-- 4. Kalp Krizi -->
+                <a href="kalpkrizi.html" class="disease-card">
+                    <img src="kalpkrizi.jpg" alt="Kalp Krizi ve Kalp Hastalıkları">
+                </a>
+
+                <!-- 5. Kanser Taramaları -->
+                <a href="kansertarama.html" class="disease-card">
+                    <img src="kansertarama.jpg" alt="Kanser Taramaları">
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
