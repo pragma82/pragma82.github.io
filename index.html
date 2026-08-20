@@ -118,7 +118,7 @@
 
         /* --- ANA İÇERİK KAPSAYICISI --- */
         .main-container {
-            max-width: 1050px; /* Dikey çizgi sığsın diye hafif genişlettik */
+            max-width: 1050px; 
             margin: 40px auto;
             padding: 20px;
             display: block;
@@ -127,7 +127,6 @@
         /* --- ORTADAN ÇİZGİLİ IZGARA (GRID) YERLEŞİMİ --- */
         .homepage-layout {
             display: grid;
-            /* Sayfayı 3'e böler: Sol sütun, 6px'lik orta çizgi alanı, Sağ sütun */
             grid-template-columns: 1fr 6px 1fr; 
             gap: 30px;
         }
@@ -164,14 +163,15 @@
             z-index: 2;
         }
 
-        /* --- METALİK MAVİ ARKA PLAN (TÜM KARTLAR İÇİN) --- */
+        /* --- DAHA BELİRGİN METALİK MAVİ ARKA PLAN --- */
         .elegant-bg {
-            background: linear-gradient(135deg, #e2eaf4 0%, #f8fbff 35%, #d1e0f0 100%);
-            border: 1px solid #c2d3e5;
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.9), 0 5px 15px rgba(0,0,0,0.08);
+            /* Mavi tonu daha doygun hale getirildi, metalik parlama %35'te korundu */
+            background: linear-gradient(135deg, #bacce3 0%, #e2ebf4 35%, #92afd0 100%);
+            border: 1px solid #8fa9c6; /* Çerçeve de yeni maviye uyarlandı */
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.8), 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Sağ Alt Köşe Görselleri (Sadece Sol Sütun İçin) */
+        /* Sağ Alt Köşe Görselleri */
         .corner-img {
             position: absolute;
             bottom: -15px;
@@ -192,12 +192,12 @@
             opacity: 1;
         }
 
-        /* Duyuru Kartı Özel Ayarları (Metalik yapıyı koruyarak sola hizalar) */
+        /* Duyuru Kartı Özel Ayarları */
         .duyuru-card {
             justify-content: flex-start;
             align-items: flex-start;
             text-align: left;
-            border-top: 5px solid #d35400; /* Duyuruyu belli eden özel üst çizgi */
+            border-top: 5px solid #d35400; 
             height: 100%;
         }
 
@@ -221,7 +221,7 @@
             border-radius: 3px;
             background: linear-gradient(to bottom, #9ca3af, #ffffff, #6b7280, #ffffff, #9ca3af);
             box-shadow: inset 1px 0 1px rgba(255,255,255,0.9), 2px 0 4px rgba(0,0,0,0.15);
-            height: 100%; /* Sütun boyunca uzanır */
+            height: 100%; 
         }
 
         /* --- YATAY METALİK AYIRICI ÇİZGİ --- */
@@ -261,7 +261,7 @@
         .duyuru-content hr {
             border: 0;
             height: 1px;
-            background: #b2c2d4; /* Metalik zemine uygun koyu gri/mavi ayırıcı */
+            background: #8b9eb3; /* Arka plan daha mavi olduğu için çizgiyi de uyumlu hale getirdik */
             margin: 15px 0;
             width: 100%;
         }
@@ -269,7 +269,7 @@
         /* Mobilde (Telefonda) kartları alt alta dizme ve dikey çizgiyi gizleme */
         @media (max-width: 768px) {
             .homepage-layout { grid-template-columns: 1fr; }
-            .vertical-divider { display: none; } /* Mobilde dikey çizgiye gerek yok */
+            .vertical-divider { display: none; } 
             .metallic-navbar { padding: 0; }
         }
     </style>
@@ -278,7 +278,7 @@
 
     <!-- ÜST KISIM (Banner ve Menü) -->
     <div class="header-wrapper">
-        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
 
         <nav class="metallic-navbar">
             <ul class="nav-links">
@@ -325,7 +325,7 @@
         </nav>
     </div>
 
-    <!-- İÇERİK ALANI (Kartların bulunduğu kısım) -->
+    <!-- İÇERİK ALANI -->
     <div class="main-container">
         
         <!-- YENİ 3 SÜTUNLU ANA YERLEŞİM -->
@@ -365,9 +365,8 @@
             <!-- 3. SÜTUN: SAĞ KISIM -->
             <div class="right-column">
                 
-                <!-- Güncel Duyurular Kartı (Buna da elegant-bg ekledik) -->
+                <!-- Güncel Duyurular Kartı -->
                 <div class="info-card duyuru-card elegant-bg">
-                    <!-- Duyuru kartında corner-img yok, tam istediğiniz gibi -->
                     <div class="card-text-content" style="width: 100%;">
                         <h3 style="color: #d35400;">📌 Güncel Duyurular</h3>
                         
