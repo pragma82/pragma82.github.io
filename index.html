@@ -224,6 +224,114 @@
             .vaccine-promo-card { flex-direction: column; }
             .vaccine-promo-card img { width: 100%; height: 160px; }
         }
+
+        /* --- YENİ KART VE IZGARA (GRID) YERLEŞİMİ --- */
+        .homepage-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Sayfayı tam ortadan iki eşit sütuna böler */
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Kartların Genel Şekli */
+        .info-card {
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Yazıları yukarı, butonu en aşağı iter */
+            align-items: center; /* Butonları ve yazıları tam merkeze ortalar */
+            text-align: center;
+            flex: 1; /* Kartların dikeyde eşit esnemesini sağlar */
+        }
+
+        /* MHRS ve Aşı Kartı İçin Zarif Arka Plan */
+        .elegant-bg {
+            background-color: #f8fafc; /* Çiğ beyaz yerine ferah, şık bir buz mavisi/grisi */
+        }
+
+        /* Duyuru Kartı Özel Ayarları */
+        .duyuru-card {
+            background-color: #fffdf5; /* Duyurular için hafif sıcak, dikkati çeken bir ton */
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
+            height: 100%; /* Sağ sütunun sol sütunla aynı boyda olmasını sağlar */
+            border-top: 5px solid #f39c12; /* Duyurulara dikkat çekici turuncu üst çizgi */
+        }
+
+        .info-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* --- PARLAK METALİK AYIRICI ÇİZGİ --- */
+        .metallic-divider {
+            height: 6px;
+            margin: 20px 0;
+            border-radius: 3px;
+            background: linear-gradient(to right, #9ca3af, #ffffff, #6b7280, #ffffff, #9ca3af);
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        /* Buton Tasarımları */
+        .btn-red {
+            background-color: #d32f2f;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #b71c1c;
+        }
+        .btn-red:hover { background-color: #f44336; transform: translateY(2px); box-shadow: 0 2px 0 #b71c1c; }
+
+        .btn-teal {
+            background-color: #1abc9c;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #128770;
+        }
+        .btn-teal:hover { background-color: #16a085; transform: translateY(2px); box-shadow: 0 2px 0 #128770; }
+
+        .duyuru-content hr {
+            border: 0;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        /* Mobilde (Telefonda) kartları alt alta dizme */
+        @media (max-width: 768px) {
+            .homepage-layout { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -292,6 +400,56 @@
             <a href="https://mhrs.gov.tr" target="_blank" class="btn-3d">MHRS Üzerinden Randevu Al</a>
         </div>
 
+        <!-- YENİ İKİ SÜTUNLU ANA YERLEŞİM -->
+        <div class="homepage-layout">
+            
+            <!-- SOL SÜTUN -->
+            <div class="left-column">
+                
+                <!-- 1. MHRS Kartı -->
+                <div class="info-card elegant-bg">
+                    <div>
+                        <h3>Aile Sağlığı Merkezimize Hoş Geldiniz</h3>
+                        <p>Bu platform üzerinden güncel çalışma saatlerimizi takip edebilir, sağlık rehberimizden faydalı bilgilere ulaşabilir ve poliklinik duyurularını öğrenebilirsiniz.</p>
+                    </div>
+                    <a href="https://mhrs.gov.tr" target="_blank" class="btn-red">MHRS Üzerinden Randevu Al</a>
+                </div>
+
+                <!-- 2. Metalik Ayırıcı -->
+                <div class="metallic-divider"></div>
+
+                <!-- 3. Aşı Planlayıcı Kartı -->
+                <div class="info-card elegant-bg">
+                    <div>
+                        <h3 style="color: #d32f2f;">Kişiye Özel Aşı Planlayıcı</h3>
+                        <p>Bebeğinizin doğum tarihine göre takvim dışı (özel) aşıları (Menenjit, Rotavirüs, HPV vb.) ne zaman yaptırmanız gerektiğini milimetrik olarak otomatik hesaplayın ve takvim çıktısı alın.</p>
+                    </div>
+                    <a href="asi-takvimi.html#ozel-asi-hesaplayici" class="btn-teal">Planlayıcıyı Başlat ➔</a>
+                </div>
+
+            </div>
+
+            <!-- SAĞ SÜTUN -->
+            <div class="right-column">
+                
+                <!-- Güncel Duyurular Kartı -->
+                <div class="info-card duyuru-card">
+                    <h3 style="color: #d35400;">📌 Güncel Duyurular</h3>
+                    
+                    <div class="duyuru-content" style="width: 100%;">
+                        <p style="margin-bottom: 5px;"><strong>Genel:</strong></p>
+                        <p>Grip aşısı stoklarımız güncellenmiştir. Risk grubundaki hastalarımız müracaat edebilir.</p>
+                        
+                        <hr>
+                        
+                        <p style="margin-bottom: 5px;"><strong>Hekim Programı:</strong></p>
+                        <p>Uzm. Dr. Abdurrahman Ersü, 15-18 Ağustos tarihleri arasında izinli olacaktır.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
         <!-- Özel Aşı Planlayıcı Tanıtım Kartı -->
             <div class="vaccine-promo-card">
                 <img src="https://images.pexels.com/photos/3786153/pexels-photo-3786153.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Kişiye Özel Aşı Planlayıcı">
