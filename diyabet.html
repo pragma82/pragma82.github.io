@@ -318,10 +318,10 @@
         }
         .back-link:hover { color: #128770; }
 
-       /* --- MOBİL (TELEFON) EKRAN AYARLARI --- */
+      /* --- MOBİL (TELEFON) EKRAN AYARLARI --- */
         @media (max-width: 768px) {
             
-            /* 1. Afişi mobilde ezilmekten kurtar (Yanlardan kesilmesini engeller) */
+            /* 1. Üstteki ana banner afişini mobilde ezilmekten kurtar */
             .banner-image {
                 height: auto !important; 
             }
@@ -330,7 +330,7 @@
             .metallic-navbar { padding: 0; }
             .nav-links {
                 display: grid;
-                grid-template-columns: 1fr 1fr; /* Ekranı tam ortadan iki eşit butona böler */
+                grid-template-columns: 1fr 1fr; 
                 width: 100%;
             }
             .nav-links > li > a {
@@ -340,32 +340,45 @@
                 border: none;
                 border-bottom: 1px solid rgba(255,255,255,0.08);
                 border-right: 1px solid rgba(255,255,255,0.08);
-                white-space: normal; /* Uzun isimli butonların taşıp bozulmasını engeller */
+                white-space: normal; 
             }
-            /* Sağdaki butonların sağ çizgisini kaldır */
             .nav-links > li:nth-child(even) > a { border-right: none; }
-            
-            /* İletişim butonunu (son eleman) tam genişlik yapıp en alta oturt */
             .nav-links > li:last-child {
                 grid-column: span 2;
                 border-bottom: none;
             }
-
-            /* 3. Açılır menülerin mobilde ekrandan dışarı taşmasını engelle */
             .dropdown-content {
                 min-width: 150px;
                 font-size: 14px;
             }
             .nav-links > li:nth-child(even) .dropdown-content {
                 left: auto;
-                right: 0; /* Sağdaki menüler açıldığında ekranın dışına taşmak yerine sola doğru açılır */
+                right: 0; 
             }
 
-            /* 4. Alt sayfalardaki (Diyabet, Ana sayfa vb.) kart mobil düzenlemeleri */
+            /* 3. PORTFOLYO KİTAPÇIK RESİMLERİNİ KESİLMESİN DİYE DÜZELTME (YENİ) */
+            .pb-image {
+                height: auto !important; /* Sabit yüksekliği kaldırıp serbest bırakır */
+                max-height: 250px; /* Dikey çok uzun resimlerin ekranı yutmasını engeller */
+                object-fit: contain !important; /* Kırpmak yerine resmi olduğu gibi çerçeveye sığdırır */
+                background-color: #f5f7fa; /* Resim yanlarında boşluk kalırsa şık metalik renk görünür */
+            }
+
+            .dual-image-container {
+                height: auto !important; /* 5. sayfadaki yan yana resimlerin kabını esnek yapar */
+                min-height: 120px;
+                background-color: #f5f7fa;
+            }
+
+            .dual-image-container img {
+                height: auto !important;
+                object-fit: contain !important; /* İkili resimlerde de kırpmayı engeller */
+            }
+
+            /* 4. Alt sayfalardaki diğer mobil düzenlemeleri */
             .homepage-layout { grid-template-columns: 1fr; }
             .vertical-divider { display: none; } 
             .pb-content { padding: 25px 20px; }
-            .pb-image, .dual-image-container { height: 200px; }
             .pb-controls { padding: 15px 20px 25px; }
         }
     </style>
