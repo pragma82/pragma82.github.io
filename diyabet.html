@@ -318,8 +318,52 @@
         }
         .back-link:hover { color: #128770; }
 
+       /* --- MOBİL (TELEFON) EKRAN AYARLARI --- */
         @media (max-width: 768px) {
+            
+            /* 1. Afişi mobilde ezilmekten kurtar (Yanlardan kesilmesini engeller) */
+            .banner-image {
+                height: auto !important; 
+            }
+
+            /* 2. Menüyü telefonda düzenli bir 2'li tabloya (buton paneline) çevir */
             .metallic-navbar { padding: 0; }
+            .nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* Ekranı tam ortadan iki eşit butona böler */
+                width: 100%;
+            }
+            .nav-links > li > a {
+                padding: 12px 5px;
+                font-size: 14px;
+                text-align: center;
+                border: none;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                border-right: 1px solid rgba(255,255,255,0.08);
+                white-space: normal; /* Uzun isimli butonların taşıp bozulmasını engeller */
+            }
+            /* Sağdaki butonların sağ çizgisini kaldır */
+            .nav-links > li:nth-child(even) > a { border-right: none; }
+            
+            /* İletişim butonunu (son eleman) tam genişlik yapıp en alta oturt */
+            .nav-links > li:last-child {
+                grid-column: span 2;
+                border-bottom: none;
+            }
+
+            /* 3. Açılır menülerin mobilde ekrandan dışarı taşmasını engelle */
+            .dropdown-content {
+                min-width: 150px;
+                font-size: 14px;
+            }
+            .nav-links > li:nth-child(even) .dropdown-content {
+                left: auto;
+                right: 0; /* Sağdaki menüler açıldığında ekranın dışına taşmak yerine sola doğru açılır */
+            }
+
+            /* 4. Alt sayfalardaki (Diyabet, Ana sayfa vb.) kart mobil düzenlemeleri */
+            .homepage-layout { grid-template-columns: 1fr; }
+            .vertical-divider { display: none; } 
             .pb-content { padding: 25px 20px; }
             .pb-image, .dual-image-container { height: 200px; }
             .pb-controls { padding: 15px 20px 25px; }
