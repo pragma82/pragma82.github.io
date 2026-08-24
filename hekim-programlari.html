@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hekim Çalışma Programları - Efeler 5 Nolu ASM</title>
+    <style>
+        /* --- SİTE GENEL AYARLARI --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI VE BANNER --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: auto !important; 
+            max-height: 220px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li { position: relative; }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ANA İÇERİK ALANI --- */
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            display: block;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1d3557;
+            font-size: 28px;
+            margin-bottom: 10px;
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* --- PROGRAM GÖRSELİ İÇİN ŞIK KART TASARIMI --- */
+        .schedule-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+            border-top: 5px solid #1abc9c; /* Kurumsal yeşil/turkuaz vurgu */
+            text-align: center;
+        }
+
+        /* PROGRAM GÖRSELİNİN PC/MOBİL/TABLET UYUMU */
+        .schedule-image {
+            width: 100%;
+            height: auto; /* Orijinal orantıyı korur, asla kırpmaz */
+            max-width: 100%; /* Taşıp sayfayı bozmasını engeller */
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #eee;
+        }
+
+        /* --- MOBİL (TELEFON VE TABLET) EKRAN AYARLARI --- */
+        @media (max-width: 768px) {
+            
+            /* Üst banner kesilmesini engeller */
+            .banner-image { height: auto !important; }
+
+            /* Menü Düzenlemeleri (Telefonda şık 2'li tablo) */
+            .metallic-navbar { padding: 0; }
+            .nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr; 
+                width: 100%;
+            }
+            .nav-links > li > a {
+                padding: 12px 5px;
+                font-size: 14px;
+                text-align: center;
+                border: none;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                border-right: 1px solid rgba(255,255,255,0.08);
+                white-space: normal; 
+            }
+            .nav-links > li:nth-child(even) > a { border-right: none; }
+            .nav-links > li:last-child {
+                grid-column: span 2;
+                border-bottom: none;
+            }
+            .dropdown-content {
+                min-width: 150px;
+                font-size: 14px;
+            }
+            .nav-links > li:nth-child(even) .dropdown-content {
+                left: auto;
+                right: 0; 
+            }
+
+            /* Mobilde kartın kenar boşluklarını daraltır ki resim daha büyük görünsün */
+            .schedule-card {
+                padding: 10px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST KISIM (Banner ve Menü) -->
+    <div class="header-wrapper">
+        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="asi-takvimi.html">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="kronik-hastaliklar.html">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="hekim-programlari.html">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <div class="main-container">
+        
+        <h1 class="page-title">Hekim Çalışma Programları</h1>
+        <p class="page-subtitle">Aile Sağlığı Merkezimizde görevli hekimlerimizin esnek mesai, poliklinik ve saha çalışma saatlerini aşağıdaki tablodan detaylı olarak inceleyebilirsiniz.</p>
+
+        <!-- PROGRAM GÖRSELİ KARTI -->
+        <div class="schedule-card">
+            <!-- Resmi asla kırpmayan evrensel class -->
+            <img src="hekimprg.png" alt="Aylık Hekim Çalışma Programı" class="schedule-image">
+        </div>
+
+    </div>
+
+</body>
+</html>
