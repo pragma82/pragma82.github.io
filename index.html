@@ -157,17 +157,15 @@
             overflow: hidden; 
         }
 
-        /* İçeriklerin resimlerin üstünde kalmasını sağlar */
         .card-text-content, .btn-red, .btn-teal {
             position: relative;
             z-index: 2;
         }
 
-        /* --- DAHA BELİRGİN METALİK MAVİ ARKA PLAN --- */
+        /* METALİK MAVİ ARKA PLAN */
         .elegant-bg {
-            /* Mavi tonu daha doygun hale getirildi, metalik parlama %35'te korundu */
             background: linear-gradient(135deg, #bacce3 0%, #e2ebf4 35%, #92afd0 100%);
-            border: 1px solid #8fa9c6; /* Çerçeve de yeni maviye uyarlandı */
+            border: 1px solid #8fa9c6; 
             box-shadow: inset 0 2px 5px rgba(255,255,255,0.8), 0 5px 15px rgba(0,0,0,0.1);
         }
 
@@ -215,7 +213,7 @@
             margin-bottom: 25px;
         }
 
-        /* --- DİKEY METALİK AYIRICI ÇİZGİ --- */
+        /* DİKEY METALİK AYIRICI ÇİZGİ */
         .vertical-divider {
             width: 6px;
             border-radius: 3px;
@@ -224,7 +222,7 @@
             height: 100%; 
         }
 
-        /* --- YATAY METALİK AYIRICI ÇİZGİ --- */
+        /* YATAY METALİK AYIRICI ÇİZGİ */
         .metallic-divider {
             height: 6px;
             border-radius: 3px;
@@ -233,7 +231,7 @@
             flex-shrink: 0;
         }
 
-        /* Buton Tasarımları */
+        /* Butonlar */
         .btn-red {
             background-color: #d32f2f;
             color: white;
@@ -261,25 +259,82 @@
         .duyuru-content hr {
             border: 0;
             height: 1px;
-            background: #8b9eb3; /* Arka plan daha mavi olduğu için çizgiyi de uyumlu hale getirdik */
+            background: #8b9eb3; 
             margin: 15px 0;
             width: 100%;
         }
 
-        /* Mobilde (Telefonda) kartları alt alta dizme ve dikey çizgiyi gizleme */
-      /* --- MOBİL (TELEFON) EKRAN AYARLARI --- */
-        @media (max-width: 768px) {
-            
-            /* 1. Afişi mobilde ezilmekten kurtar (Yanlardan kesilmesini engeller) */
-            .banner-image {
-                height: auto !important; 
-            }
+        /* --- YENİ EKLENEN: KRONİK HASTALIKLAR GÖRSEL BANNERI --- */
+        .chronic-promo-banner {
+            display: block;
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 40px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            text-decoration: none;
+            border: 2px solid #8fa9c6;
+            transition: all 0.3s ease;
+        }
 
-            /* 2. Menüyü telefonda düzenli bir 2'li tabloya (buton paneline) çevir */
+        .chronic-promo-banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+            border-color: #d32f2f; /* Fareyle gelince çerçeve vurgulanır */
+        }
+
+        .chronic-promo-banner img {
+            width: 100%;
+            height: 250px; /* PC'de afiş yüksekliği */
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .chronic-promo-banner:hover img {
+            transform: scale(1.03); /* Hafif yakınlaşma efekti */
+        }
+
+        /* Yazının arkasındaki karartma ve yazı ayarları */
+        .chronic-promo-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,30,60,0.4); /* Resim okunsun diye hafif mavi/siyah filtre */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .chronic-promo-banner:hover .chronic-promo-overlay {
+            background: rgba(0,30,60,0.6); 
+        }
+
+        .chronic-promo-overlay h2 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 800;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+            margin: 0;
+            padding: 15px 30px;
+            border: 3px solid rgba(255,255,255,0.8);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.2); 
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- MOBİL (TELEFON VE TABLET UYUMU) EKRAN AYARLARI --- */
+        @media (max-width: 768px) {
+            .banner-image { height: auto !important; }
+            
+            /* Menü Düzenlemeleri */
             .metallic-navbar { padding: 0; }
             .nav-links {
                 display: grid;
-                grid-template-columns: 1fr 1fr; /* Ekranı tam ortadan iki eşit butona böler */
+                grid-template-columns: 1fr 1fr; 
                 width: 100%;
             }
             .nav-links > li > a {
@@ -289,33 +344,35 @@
                 border: none;
                 border-bottom: 1px solid rgba(255,255,255,0.08);
                 border-right: 1px solid rgba(255,255,255,0.08);
-                white-space: normal; /* Uzun isimli butonların taşıp bozulmasını engeller */
+                white-space: normal; 
             }
-            /* Sağdaki butonların sağ çizgisini kaldır */
             .nav-links > li:nth-child(even) > a { border-right: none; }
-            
-            /* İletişim butonunu (son eleman) tam genişlik yapıp en alta oturt */
             .nav-links > li:last-child {
                 grid-column: span 2;
                 border-bottom: none;
             }
-
-            /* 3. Açılır menülerin mobilde ekrandan dışarı taşmasını engelle */
             .dropdown-content {
                 min-width: 150px;
                 font-size: 14px;
             }
             .nav-links > li:nth-child(even) .dropdown-content {
                 left: auto;
-                right: 0; /* Sağdaki menüler açıldığında ekranın dışına taşmak yerine sola doğru açılır */
+                right: 0; 
             }
 
-            /* 4. Alt sayfalardaki (Diyabet, Ana sayfa vb.) kart mobil düzenlemeleri */
+            /* 3 Sütunlu yapıyı mobilde alt alta dök */
             .homepage-layout { grid-template-columns: 1fr; }
             .vertical-divider { display: none; } 
-            .pb-content { padding: 25px 20px; }
-            .pb-image, .dual-image-container { height: 200px; }
-            .pb-controls { padding: 15px 20px 25px; }
+
+            /* Yeni Afişin Mobil Ayarları */
+            .chronic-promo-banner img {
+                height: 180px; /* Mobilde daha ince ve zarif bir afiş */
+            }
+            .chronic-promo-overlay h2 {
+                font-size: 18px;
+                padding: 10px 15px;
+                border-width: 2px;
+            }
         }
     </style>
 </head>
@@ -373,7 +430,7 @@
     <!-- İÇERİK ALANI -->
     <div class="main-container">
         
-        <!-- YENİ 3 SÜTUNLU ANA YERLEŞİM -->
+        <!-- YENİ 3 SÜTUNLU ANA YERLEŞİM (ÜST KARTLAR) -->
         <div class="homepage-layout">
             
             <!-- 1. SÜTUN: SOL KISIM -->
@@ -397,7 +454,7 @@
                     <img src="https://images.pexels.com/photos/1648377/pexels-photo-1648377.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Gülen Çocuk" class="corner-img">
                     <div class="card-text-content">
                         <h3 style="color: #d32f2f;">Kişiye Özel Aşı Planlayıcı</h3>
-                        <p>Bebeğinizin doğum tarihine göre takvim dışı (özel) aşıları ne zaman yaptırmanız gerektiğini otomatik hesaplayın ve takvim çıktısı alın.</p>
+                        <p>Bebeğinizin doğum tarihine göre takvim dışı (özel) aşıları ne zaman yaptırmanız gerektiğini milimetrik olarak otomatik hesaplayın ve takvim çıktısı alın.</p>
                     </div>
                     <a href="asi-takvimi.html#ozel-asi-hesaplayici" class="btn-teal">Planlayıcıyı Başlat ➔</a>
                 </div>
@@ -430,6 +487,17 @@
             </div>
             
         </div>
+        
+        <!-- ÜST KARTLAR İLE ALT BANNER'I AYIRAN ANA METALİK ÇİZGİ -->
+        <div class="metallic-divider" style="margin-top: 40px;"></div>
+
+        <!-- KRONİK HASTALIKLAR İÇİN DİKKAT ÇEKİCİ GÖRSEL BANNER -->
+        <a href="kronik-hastaliklar.html" class="chronic-promo-banner">
+            <img src="krgorsel.jpg" alt="Kronik Hastalıklar Bilgi Ekranı">
+            <div class="chronic-promo-overlay">
+                <h2>Kronik hastalıklarla ilgili bilgi almak için resme tıklayınız. ➔</h2>
+            </div>
+        </a>
         
     </div>
 
