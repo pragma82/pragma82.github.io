@@ -134,14 +134,13 @@
         .page-subtitle {
             text-align: center;
             color: #333;
-            font-size: 22px;
+            font-size: 19px;
             font-weight: bold;
             margin-bottom: 30px;
         }
 
-        /* --- TOK METALİK MAVİ ARKA PLAN (KARTLARIN KAPSAYICISI) --- */
+        /* --- TOK METALİK MAVİ ARKA PLAN --- */
         .dark-metal-bg {
-            /* Soluk olmayan, dikkat çekici, tok bir metalik lacivert/mavi yansıma */
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #152b52 100%);
             border: 2px solid #3a6baf;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 15px 35px rgba(0,0,0,0.15);
@@ -152,7 +151,6 @@
         /* --- HAREKETLİ VE DÖNEN KART IZGARASI --- */
         .disease-grid {
             display: grid;
-            /* Ekran boyutuna göre kartları otomatik yan yana dizer, sığmazsa alt satıra atar */
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 25px;
             align-items: center;
@@ -166,11 +164,10 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            /* Büyüme ve dönme efekti için yumuşak geçiş (transition) */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             text-decoration: none;
-            background-color: #fff; /* Resimlerin kenarlarında pürüz kalırsa beyaz göstersin */
+            background-color: #fff;
         }
 
         .disease-card img {
@@ -181,23 +178,54 @@
             transition: transform 0.5s ease;
         }
 
-        /* --- HOVER (FARE İLE ÜZERİNE GELİNCEKİ ANİMASYON) --- */
         .disease-card:hover {
-            /* Hafifçe yukarı kalkar, %8 büyür ve 2 derece döner */
             transform: translateY(-15px) scale(1.08) rotate(2deg);
             box-shadow: 0 20px 40px rgba(0,0,0,0.7);
             z-index: 10;
         }
 
-        /* Resmin kendi içindeki hafif yakınlaşma efekti */
         .disease-card:hover img {
             transform: scale(1.03);
         }
 
+        /* --- MOBİL (TELEFON) EKRAN AYARLARI --- */
         @media (max-width: 768px) {
+            
+            /* Üst banner kesilmesini engeller */
+            .banner-image { height: auto !important; }
+
+            /* Menü Düzenlemeleri (Telefonda şık butonlar) */
             .metallic-navbar { padding: 0; }
+            .nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr; 
+                width: 100%;
+            }
+            .nav-links > li > a {
+                padding: 12px 5px;
+                font-size: 14px;
+                text-align: center;
+                border: none;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                border-right: 1px solid rgba(255,255,255,0.08);
+                white-space: normal; 
+            }
+            .nav-links > li:nth-child(even) > a { border-right: none; }
+            .nav-links > li:last-child {
+                grid-column: span 2;
+                border-bottom: none;
+            }
+            .dropdown-content {
+                min-width: 150px;
+                font-size: 14px;
+            }
+            .nav-links > li:nth-child(even) .dropdown-content {
+                left: auto;
+                right: 0; 
+            }
+
+            /* Alt kartlar ve metalik arkaplanın mobilde daralmasını sağlar */
             .dark-metal-bg { padding: 30px 20px; }
-            /* Mobilde kartlar çok küçülmesin diye minimum genişliği artırdık */
             .disease-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px;}
         }
     </style>
@@ -206,7 +234,7 @@
 
     <!-- ÜST KISIM (Banner ve Menü) -->
     <div class="header-wrapper">
-        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
 
         <nav class="metallic-navbar">
             <ul class="nav-links">
