@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hipertansiyon (Tansiyon) Rehberi - Efeler 5 Nolu ASM</title>
+    <style>
+        /* --- SİTE GENEL AYARLARI --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI VE BANNER --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: auto !important; 
+            max-height: 220px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li { position: relative; }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ANA İÇERİK ALANI --- */
+        .main-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d32f2f;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1d3557;
+            font-size: 28px;
+            margin-bottom: 10px;
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #333;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        /* --- SADECE GÖRSELE ÖZEL METALİK KİTAPÇIK --- */
+        .portfolio-book {
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1); 
+            overflow: hidden;
+            margin: 20px 0 40px 0;
+            position: relative;
+            touch-action: pan-y; 
+            border: 2px solid #9cb0c9;
+        }
+
+        .pb-pages-container {
+            position: relative;
+            /* Resimleri öne çıkaran tok ve çarpıcı "Titanyum / Gümüş" metalik arkaplan */
+            background: linear-gradient(135deg, #e0e5ec 0%, #bfcadb 50%, #9cb0c9 100%);
+            padding: 30px; /* Resimlerin etrafında şık bir çerçeve boşluğu bırakır */
+        }
+
+        .pb-page {
+            display: none;
+            animation: slideFadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-align: center;
+        }
+
+        .pb-page.active {
+            display: block;
+        }
+
+        @keyframes slideFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* İÇİNDE YAZI OLAN RESİMLER İÇİN TAM OKUNABİLİR (FULL) AYAR */
+        .pb-image-full {
+            width: 100%;
+            height: auto; 
+            max-height: 80vh; /* Resmin ekrandan dışarı taşıp kaybolmasını engeller */
+            object-fit: contain; /* Kesinlikle kırpmayı yasaklar */
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Resme tablo (poster) hissi verir */
+        }
+
+        /* Kontrol Paneli */
+        .pb-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px 30px;
+            background: #ffffff;
+            border-top: 1px solid #d1d9e6;
+        }
+
+        .pb-btn {
+            background: #f8f9fa;
+            border: 1px solid #c2d3e5;
+            color: #2c3e50;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pb-btn:hover:not(:disabled) {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .pb-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: #fff;
+        }
+
+        .pb-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pb-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: all 0.4s ease;
+        }
+
+        .pb-dot.active {
+            background: #d32f2f;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1abc9c;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #128770; }
+
+        /* --- MOBİL UYUM (TELEFON & TABLET) --- */
+        @media (max-width: 768px) {
+            .metallic-navbar { padding: 0; }
+            .nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr; 
+                width: 100%;
+            }
+            .nav-links > li > a {
+                padding: 12px 5px;
+                font-size: 14px;
+                text-align: center;
+                border: none;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                border-right: 1px solid rgba(255,255,255,0.08);
+                white-space: normal; 
+            }
+            .nav-links > li:nth-child(even) > a { border-right: none; }
+            .nav-links > li:last-child {
+                grid-column: span 2;
+                border-bottom: none;
+            }
+            .dropdown-content {
+                min-width: 150px;
+                font-size: 14px;
+            }
+            .nav-links > li:nth-child(even) .dropdown-content {
+                left: auto;
+                right: 0; 
+            }
+
+            /* Mobilde çerçeve boşluğunu azaltıp resmi ekrana yayarız */
+            .pb-pages-container { padding: 15px; }
+            .pb-controls { padding: 15px 20px 25px; }
+            .main-container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST KISIM (Banner ve Menü) -->
+    <div class="header-wrapper">
+        <img src="banne.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">1. Birim Ebesi</a></li>
+                        <li><a href="#">2. Birim Ebesi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="asi-takvimi.html">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="kronik-hastaliklar.html">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="hekim-programlari.html">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <div class="main-container">
+        
+        <h1 class="page-title">Hipertansiyon (Tansiyon) Rehberi</h1>
+        <p class="page-subtitle">Yüksek tansiyon hakkında bilmeniz gereken her şey için görseli kaydırınız.</p>
+        
+        <!-- SADECE GÖRSELE ÖZEL METALİK PORTFOLYO KİTAPÇIĞI (2 SAYFA) -->
+        <div class="portfolio-book" id="ht-book">
+            <div class="pb-pages-container">
+                
+                <!-- Sayfa 1: ht1.png -->
+                <div class="pb-page active" data-page="1">
+                    <img src="ht1.png" alt="Hipertansiyon Bilgi 1" class="pb-image-full">
+                </div>
+
+                <!-- Sayfa 2: ht2.png -->
+                <div class="pb-page" data-page="2">
+                    <img src="ht2.png" alt="Hipertansiyon Bilgi 2" class="pb-image-full">
+                </div>
+
+            </div>
+            
+            <!-- Kontrol Noktaları ve Butonlar (2 Sayfa İçin) -->
+            <div class="pb-controls">
+                <button class="pb-btn" id="pb-prev" disabled>&#8592;</button>
+                <div class="pb-dots">
+                    <span class="pb-dot active" data-page="1"></span>
+                    <span class="pb-dot" data-page="2"></span>
+                </div>
+                <button class="pb-btn" id="pb-next">&#8594;</button>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="kronik-hastaliklar.html" class="back-link">⟵ Kronik Hastalıklar Menüsüne Dön</a>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT (Kitapçık Geçişleri İçin) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const totalPages = 2; // Bu rehber 2 görsel sayfasından oluşuyor
+            const pages = document.querySelectorAll('.pb-page');
+            const dots = document.querySelectorAll('.pb-dot');
+            const prevBtn = document.getElementById('pb-prev');
+            const nextBtn = document.getElementById('pb-next');
+            const bookContainer = document.getElementById('ht-book');
+
+            function updateBook() {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if(parseInt(page.getAttribute('data-page')) === currentPage) {
+                        page.classList.add('active');
+                    }
+                });
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index + 1 === currentPage);
+                });
+                
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if(currentPage < totalPages) {
+                    currentPage++;
+                    updateBook();
+                    bookContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if(currentPage > 1) {
+                    currentPage--;
+                    updateBook();
+                    bookContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            // Mobilde Parmakla Kaydırma (Swipe) Desteği
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            bookContainer.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, {passive: true});
+
+            bookContainer.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, {passive: true});
+
+            function handleSwipe() {
+                const threshold = 50; 
+                if (touchEndX < touchStartX - threshold) {
+                    if(currentPage < totalPages) { currentPage++; updateBook(); }
+                }
+                if (touchEndX > touchStartX + threshold) {
+                    if(currentPage > 1) { currentPage--; updateBook(); }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
