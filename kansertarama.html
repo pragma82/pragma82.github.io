@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanser Taramaları Rehberi - Efeler 5 Nolu ASM</title>
+    <style>
+        /* --- SİTE GENEL AYARLARI --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- ÜST KAPSAYICI VE BANNER --- */
+        .header-wrapper {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: auto !important; 
+            max-height: 220px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* --- METALİK NAVBAR --- */
+        .metallic-navbar {
+            background: linear-gradient(to bottom, #4b4b4b 0%, #2c2c2c 50%, #1c1c1c 51%, #111111 100%);
+            border-bottom: 2px solid #7f8c8d;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > li { position: relative; }
+
+        .nav-links > li > a {
+            display: block;
+            padding: 16px 22px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px black;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .nav-links > li:first-child > a { border-left: none; }
+        .nav-links > li:last-child > a { border-right: none; }
+
+        .nav-links > li > a:hover {
+            background: linear-gradient(to bottom, #5c5c5c 0%, #3d3d3d 50%, #2d2d2d 51%, #222222 100%);
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* --- AÇILIR ALT MENÜLER --- */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .dropdown-content li a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+            font-size: 15px;
+            white-space: nowrap; 
+        }
+
+        .dropdown-content li a:hover {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-links li:hover .dropdown-content {
+            display: block;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ANA İÇERİK ALANI --- */
+        .main-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d32f2f;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1d3557;
+            font-size: 28px;
+            margin-bottom: 10px;
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #333;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        /* --- METALİK PORTFOLYO KİTAPÇIĞI --- */
+        .portfolio-book {
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1); 
+            overflow: hidden;
+            margin: 20px 0 40px 0;
+            position: relative;
+            touch-action: pan-y; 
+            border: 1px solid #b5c6e0;
+        }
+
+        .pb-pages-container {
+            position: relative;
+            min-height: 480px;
+            /* Ciddiyet ve güven hissi veren Gümüş/Platin metalik zemin */
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 50%, #d1d9e6 100%);
+        }
+
+        .pb-page {
+            display: none;
+            padding: 0;
+            animation: slideFadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .pb-page.active {
+            display: block;
+        }
+
+        @keyframes slideFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Evrensel Kırpma Engelleyici (Tüm Cihazlar İçin) */
+        .pb-image {
+            width: 100%;
+            height: auto; 
+            max-height: 350px; 
+            object-fit: contain; /* PC, Tablet ve Telefondaki kesilmeleri TAMAMEN önler */
+            background-color: #ffffff; /* Kenar boşluklarında beyaz zemin görünür */
+            display: block;
+            border-bottom: 3px solid #2c3e50; 
+        }
+
+        .pb-content {
+            padding: 35px 40px;
+        }
+
+        .pb-content p {
+            font-size: 16.5px;
+            line-height: 1.8;
+            color: #1a252f;
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        /* Dikkat Çekici Şık Soru Tasarımı */
+        .pb-question {
+            font-weight: 800 !important;
+            color: #d32f2f !important;
+            font-size: 18px !important;
+            margin-top: 25px;
+            margin-bottom: 10px !important;
+            border-left: 4px solid #d32f2f;
+            padding-left: 15px;
+            background: linear-gradient(90deg, rgba(211,47,47,0.08) 0%, rgba(255,255,255,0) 100%);
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .pb-answer {
+            margin-top: 0;
+            padding-left: 5px;
+        }
+
+        /* Kontrol Paneli */
+        .pb-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px 30px;
+            background: #ffffff;
+            border-top: 1px solid #d1d9e6;
+        }
+
+        .pb-btn {
+            background: #f8f9fa;
+            border: 1px solid #c2d3e5;
+            color: #2c3e50;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pb-btn:hover:not(:disabled) {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .pb-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: #fff;
+        }
+
+        .pb-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pb-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: all 0.4s ease;
+        }
+
+        .pb-dot.active {
+            background: #d32f2f;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1abc9c;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #128770; }
+
+        /* --- MOBİL & TABLET UYUMU --- */
+        @media (max-width: 768px) {
+            .metallic-navbar { padding: 0; }
+            .nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr; 
+                width: 100%;
+            }
+            .nav-links > li > a {
+                padding: 12px 5px;
+                font-size: 14px;
+                text-align: center;
+                border: none;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                border-right: 1px solid rgba(255,255,255,0.08);
+                white-space: normal; 
+            }
+            .nav-links > li:nth-child(even) > a { border-right: none; }
+            .nav-links > li:last-child {
+                grid-column: span 2;
+                border-bottom: none;
+            }
+            .dropdown-content {
+                min-width: 150px;
+                font-size: 14px;
+            }
+            .nav-links > li:nth-child(even) .dropdown-content {
+                left: auto;
+                right: 0; 
+            }
+            .pb-content { padding: 25px 20px; }
+            .pb-controls { padding: 15px 20px 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST KISIM (Banner ve Menü) -->
+    <div class="header-wrapper">
+        <img src="banner.png" alt="Efeler 5 Nolu ASM" class="banner-image">
+
+        <nav class="metallic-navbar">
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Doktorlarımız ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Uzm. Dr. Abdurrahman Ersü</a></li>
+                        <li><a href="#">Uzm. Dr. Nazmiye Kaçmaz Ersü</a></li>
+                        <li><a href="#">Dr. Abbas Yılmaz</a></li>
+                        <li><a href="#">Dr. Ümit Yılmaz</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Ebe/Hemşirelerimiz ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Ebe Kübra Madenci</a></li>
+                        <li><a href="#">Ebe Şenay Başyiğit</a></li>
+                      <li><a href="#">Ebe Didem Yarımca</a></li>
+                      <li><a href="#">Ebe Gönül Yıldız</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://mhrs.gov.tr" target="_blank">Randevu Al</a></li>
+
+                <li class="dropdown">
+                    <a href="#">Sağlık Rehberi ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="asi-takvimi.html">Aşı Takvimi ve Bilgiler</a></li>
+                        <li><a href="kronik-hastaliklar.html">Kronik Hastalık Uyarıları</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Duyurular ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">Genel ASM Duyuruları</a></li>
+                        <li><a href="hekim-programlari.html">Hekim Çalışma Programları</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <div class="main-container">
+        
+        <h1 class="page-title">Kanser Taramaları Rehberi</h1>
+        <p class="page-subtitle">Erken teşhis hayat kurtarır. Kanser taramaları hakkında bilmeniz gerekenleri kaydırarak okuyabilirsiniz.</p>
+        
+        <!-- METALİK PORTFOLYO KİTAPÇIĞI (4 SAYFA) -->
+        <div class="portfolio-book" id="cancer-book">
+            <div class="pb-pages-container">
+                
+                <!-- Sayfa 1: Genel Kanser Taramaları -->
+                <div class="pb-page active" data-page="1">
+                    <img src="kanser.jpg" alt="Kanser Taramaları" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Kanser taramaları kimlere yapılır?</p>
+                        <p class="pb-answer">Farklı hasta grupları için farklı kanser taramaları yapılır. Hangi kanser taramasının hangi hastalara ve hangi yöntemle yapılacağı T.C. Sağlık Bakanlığı tarafından güncel bilimsel kurallara göre belirlenir. Devam eden sayfalarda bu bilgilere ulaşabilirsiniz.</p>
+
+                        <p class="pb-question">Soru: Hangi kanser türleri taranabilir? Tüm kanserler taranabilir mi?</p>
+                        <p class="pb-answer">Hayır tüm kanserler taranmaz. Meme kanserlerine, kolon (kalın barsak) kanserlerine ve rahim ağzı kanserlerine yönelik taramalar yapılmaktadır. Hasta için en kolay ve hastaya hiç ya da en az zarar verecek yöntemlerle taranabilecek ve erken tespit edilmesi durumunda tedavisi mümkün olabilecek kanserler taranabilmektedir.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 2: Meme Kanseri -->
+                <div class="pb-page" data-page="2">
+                    <img src="meme.jpg" alt="Meme Kanseri Taraması" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Meme kanseri taraması kimlere ve nasıl yapılır?</p>
+                        <p class="pb-answer">Meme kanseri taraması 40 yaş üzerindeki kadınlara, iki yılda bir uygulanır. Tarama, mammografi ile yapılır. Ancak tamamlayıcı olarak ultrason yapılması da önerilebilir.</p>
+                        
+                        <p class="pb-question">Soru: Mammografi zararlı mıdır; mammografinin kendisi kanseri tetikleyebilir mi?</p>
+                        <p class="pb-answer">Hayır. Mammografi işlemi kansere neden olmaz ya da tetiklemez. Zaten mümkün olan en az sayıda işlemin yapılması için kanserin en sık görüldüğü yaş grubu taramaya dahil edilir.</p>
+                        
+                        <p class="pb-question">Soru: Ailemde meme kanseri öyküsü var ve 40 yaşın altındayım. Ne yapmalıyım?</p>
+                        <p class="pb-answer">Ailede meme kanseri öyküsü olanlarda taramaya daha erken yaşlarda başlanmalıdır. Her ne kadar mammografi ile tarama rutin olarak 40 yaşında başlasa da bu kişilerde daha erken yaşlarda alternatif yöntemlerle (ultrason ve şüphe halinde MRG) ile tarama yapılabilir. Detaylı bilgi için lütfen aile hekiminize danışınız.</p>
+                        
+                        <p class="pb-question">Soru: Meme kanseri taramasını nasıl yaptırabilirim?</p>
+                        <p class="pb-answer">Meme kanseri taraması için mammografi randevusu almanız gereklidir. Aile hekiminize başvurmanız durumunda kanser tarama randevunuz alınıp randevu tarihinde mammografinizi çektirdikten sonra sonucunu aile hekiminizden öğrenebilirsiniz. Ayrıca sonucunuzu e-nabızda yer alan "Kanser Taramalarım" bölümünden de öğrenebilirsiniz.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 3: HPV ve Rahim Ağzı Kanseri -->
+                <div class="pb-page" data-page="3">
+                    <img src="hpv.jpg" alt="HPV Taraması" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Rahim ağzı kanseri taraması kimlere ve nasıl yapılır?</p>
+                        <p class="pb-answer">Rahim ağzı kanseri HPV taraması denilen bir yöntemle yapılır ve 30 yaş üstü kadınlara, beş yılda bir uygulanır. HPV virüsü, birçok alt tipi olan çoğu iyi huylu siğillere yol açan ancak bazı tipleri de rahim ağzı kanseri başta olmak üzere bazı kanserlere sebep olabilen bir virüstür.</p>
+                        <p class="pb-answer">HPV taraması ile yalnızca rahim ağzı kanserinin erken tanısı hedeflenmez; aynı zamanda daha kanser hiç oluşmadan uzun yıllar önce kişinin, ileride gelişmesi muhtemel rahim ağzı kanserine neden olabilecek tipte virüs taşıyıp taşımadığına bakılır. Yani bu test sadece kanser olup olmadığınızı değil ileride rahim ağzı kanseri olma ihtimaliniz olup olmadığını gösteren değerli bir testtir.</p>
+
+                        <p class="pb-question">Soru: HPV taramasını nerede yaptırabilirim?</p>
+                        <p class="pb-answer">HPV taramanızı KETEM' lerde yaptırabilirsiniz. Aile hekiminize başvurmanız durumunda aile hekiminiz en doğru şekilde sizi yönlendirecektir.</p>
+                    </div>
+                </div>
+
+                <!-- Sayfa 4: Kalın Bağırsak (GGK) -->
+                <div class="pb-page" data-page="4">
+                    <img src="ggk.jpg" alt="Kalın Barsak Kanseri Taraması (GGK)" class="pb-image">
+                    <div class="pb-content">
+                        <p class="pb-question">Soru: Kalın barsak kanseri taraması nedir ve kimlere yapılır?</p>
+                        <p class="pb-answer">Kalın barsak kanseri taraması 50-70 yaş arasında iki yılda bir yapılan bir taramadır. Bu tarama Gaitada Gizli Kan (GGK) testi denilen bir yöntemle yapılır. Bu testte, büyük tuvaletinizde gözle görülmeyen kan olup olmadığına bakılır.</p>
+                        <p class="pb-answer">Testinizin pozitif çıkması halinde ileri tetkikler gerekebilir. Bu testin pozitif olması her zaman kanser ile ilişkili olmayabilir çünkü bu testler tarama testleridir. Ancak testin pozitif olması hemoroid, iyi huylu ya da kötü huylu barsak kitleleri veya takibi gereken ve ileride kötü huylu olabilecek kitlelerle ilişkili olabilirler.</p>
+
+                        <p class="pb-question">Soru: GGK testini nasıl yaptırabilirim?</p>
+                        <p class="pb-answer">Aile hekiminize başvurmanız durumunda size bir gaita tüpü verilecektir. Bu tüpe numune aktarıp Aile Sağlığı Merkezine tekrar başvurmanız halinde testiniz çok kısa sürede sonuçlanacaktır.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Kontrol Noktaları ve Butonlar (4 Sayfa İçin) -->
+            <div class="pb-controls">
+                <button class="pb-btn" id="pb-prev" disabled>&#8592;</button>
+                <div class="pb-dots">
+                    <span class="pb-dot active" data-page="1"></span>
+                    <span class="pb-dot" data-page="2"></span>
+                    <span class="pb-dot" data-page="3"></span>
+                    <span class="pb-dot" data-page="4"></span>
+                </div>
+                <button class="pb-btn" id="pb-next">&#8594;</button>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="kronik-hastaliklar.html" class="back-link">⟵ Kronik Hastalıklar Menüsüne Dön</a>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT (Sadece Kitapçık İçin) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const totalPages = 4; // Kanser tarama kitapçığı 4 sayfadan oluşuyor
+            const pages = document.querySelectorAll('.pb-page');
+            const dots = document.querySelectorAll('.pb-dot');
+            const prevBtn = document.getElementById('pb-prev');
+            const nextBtn = document.getElementById('pb-next');
+            const bookContainer = document.getElementById('cancer-book');
+
+            function updateBook() {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if(parseInt(page.getAttribute('data-page')) === currentPage) {
+                        page.classList.add('active');
+                    }
+                });
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index + 1 === currentPage);
+                });
+                
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if(currentPage < totalPages) {
+                    currentPage++;
+                    updateBook();
+                    bookContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if(currentPage > 1) {
+                    currentPage--;
+                    updateBook();
+                    bookContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            // Mobilde Parmakla Kaydırma (Swipe)
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            bookContainer.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, {passive: true});
+
+            bookContainer.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, {passive: true});
+
+            function handleSwipe() {
+                const threshold = 50; 
+                if (touchEndX < touchStartX - threshold) {
+                    if(currentPage < totalPages) { currentPage++; updateBook(); }
+                }
+                if (touchEndX > touchStartX + threshold) {
+                    if(currentPage > 1) { currentPage--; updateBook(); }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
